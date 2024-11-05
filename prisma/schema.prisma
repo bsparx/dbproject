@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  student
+  teacher
+}
+
+enum Status {
+  completed
+  incomplete
+}
+
+enum CreatedBy {
+  teacher
+  system
+}
+
+model User {
+  user_id Int      @id @default(autoincrement())
+  ClerkID String   @unique
+  name    String
+  role    Role
+  email   String   @unique
+  courses Course[]
+
+  answers ExamAnswerRecord[]
+
+  Enrollment Enrollment[]
+}
+
+model Course {
+  course_id  Int        @id @default(autoincrement())
+  teacher_id Int
+  name       String
+  teacher    User       @relation(fields: [teacher_id], references: [user_id])
+  topics     Topic[]
+  exams      MockExam[]
+
+  Enrollment Enrollment[]
+}
+
+model Topic {
+  topic_id  Int        @id @default(autoincrement())
+  course_id Int
+  name      String
+  course    Course     @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  questions Question[]
+}
+
+model Question {
+  question_id    Int              @id @default(autoincrement())
+  topic_id       Int
+  text           String
+  correct_answer String
+  difficulty     Int              @default(5) // nifficulty from 0-10
+  topic          Topic            @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
+  createdOn      DateTime         @default(now())
+  ExamQuestions  ExamQuestions[]
+  CheckedAnswers CheckedAnswers[]
+}
+
+model MockExam {
+  exam_id            Int                @id @default(autoincrement())
+  name               String
+  created_by         CreatedBy
+  date               DateTime           @default(now())
+  average_difficulty Float              @default(0.0)
+  course_id          Int
+  course             Course             @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  answers            ExamAnswerRecord[]
+
+  ExamQuestions ExamQuestions[]
+}
+
+model ExamQuestions {
+  exam_id     Int
+  exam        MockExam @relation(fields: [exam_id], references: [exam_id], onDelete: Cascade)
+  question_id Int
+  question    Question @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
+
+  @@unique([exam_id, question_id])
+}
+
+model ExamAnswerRecord {
+  record_id  Int      @id @default(autoincrement())
+  exam_id    Int
+  student_id Int
+  Status     Status   @default(incomplete)
+  exam       MockExam @relation(fields: [exam_id], references: [exam_id], onDelete: Cascade)
+  student    User     @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
+
+  CheckedAnswers CheckedAnswers[]
+}
+
+model CheckedAnswers {
+  results_id     Int              @id @default(autoincrement())
+  record_id      Int
+  question       Question         @relation(fields: [question_id], references: [question_id], onDelete: Cascade)
+  record         ExamAnswerRecord @relation(fields: [record_id], references: [record_id], onDelete: Cascade)
+  question_id    Int
+  student_answer String
+  score          Int              @default(1)
+  comments       String?
+}
+
+model Enrollment {
+  enrollment_id Int    @id @default(autoincrement())
+  student_id    Int
+  course_id     Int
+  student       User   @relation(fields: [student_id], references: [user_id])
+  course        Course @relation(fields: [course_id], references: [course_id])
+
+  @@unique([student_id, course_id])
+}

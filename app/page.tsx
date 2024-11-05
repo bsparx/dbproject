@@ -1,100 +1,101 @@
-import Image from "next/image";
+// Home.js
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
-export default function Home() {
+import Link from "next/link";
+
+
+export default async function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20 px-5 text-center">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
+            Welcome to Quiz Craft
+          </h1>
+          <p className="text-lg md:text-xl mb-8">
+            The ultimate platform for students and teachers to create, take, and
+            analyze exams efficiently.
+          </p>
+          <div className="space-x-4">
+            <Link href={`/sign-up`}>
+              <button className="px-8 py-3 bg-white text-blue-600 rounded-lg shadow-lg font-semibold transition duration-300 hover:bg-gray-200">
+                Get Started
+              </button>
+            </Link>
+            <Link href={`/sign-in`}>
+              <button className="px-8 py-3 bg-transparent border border-white text-white rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition duration-300">
+                Sign In
+              </button>
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 px-5">
+        <div className="max-w-6xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+            Features
+          </h2>
+          <p className="text-gray-600 mt-4">
+            ExamHub simplifies the process for students and teachers with these
+            key features:
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
+            <h3 className="text-xl font-semibold text-blue-600 mb-3">
+              Create Mock Exams
+            </h3>
+            <p className="text-gray-700">
+              Teachers can easily create and customize mock exams, with options
+              for question difficulty and topics.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
+            <h3 className="text-xl font-semibold text-blue-600 mb-3">
+              Track Progress
+            </h3>
+            <p className="text-gray-700">
+              Students can enroll in courses, take exams, and track their
+              progress over time, comparing scores and feedback.
+            </p>
+          </div>
+          <div className="bg-white p-6 rounded-xl shadow-lg text-center">
+            <h3 className="text-xl font-semibold text-blue-600 mb-3">
+              AI-Driven Analysis
+            </h3>
+            <p className="text-gray-700">
+              Get instant feedback and scoring, powered by AI, to help you
+              improve with each mock exam you attempt.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-indigo-600 py-16 px-5 text-center text-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Ready to ace your exams?
+          </h2>
+          <p className="text-lg mb-8">
+            Join Quiz Craft today and start mastering your subjects with
+            confidence.
+          </p>
+          <Link href="/dashboard">
+            <button className="px-10 py-4 bg-orange-500 text-white rounded-lg font-semibold transition duration-300 hover:bg-orange-600">
+              Go to Dashboard
+            </button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-100 py-8 text-center text-gray-600 mt-12">
+        <p>&copy; {new Date().getFullYear()} Quiz Craft. All rights reserved.</p>
       </footer>
     </div>
   );
