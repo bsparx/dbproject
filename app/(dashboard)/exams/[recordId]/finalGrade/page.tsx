@@ -1,7 +1,7 @@
 import { prisma } from "@/utils/db";
 
 export default async function page({ params }) {
-  const { recordId } = params;
+  const { recordId } = await params;
   const data = await prisma.checkedAnswers.findMany({
     where: {
       record_id: Number(recordId),
