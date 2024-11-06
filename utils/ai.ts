@@ -42,6 +42,7 @@ export async function analyze(prompt) {
     temperature: 0,
     apiKey: process.env.OPENAI_API_KEY,
   });
+  console.log(input)
   const aiMsg = await llm.invoke([
     {
       role: "user",

@@ -5,7 +5,7 @@ import { getUser } from "@/utils/user";
 import { redirect } from "next/navigation";
 
 export default async function page({ params }) {
-  const { recordId } = params;
+  const { recordId } = await params;
   const user = await getUser();
 
   // Check if the student is authorized to access the record
