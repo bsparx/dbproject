@@ -1,4 +1,3 @@
-
 "use client";
 
 import PropTypes from "prop-types";
@@ -9,21 +8,21 @@ export default function ReigsterCourseButton({ course, student_id }) {
   const [state, formAction, isPending] = useActionState(registerForCourse, {
     course_id: course.course_id,
     student_id,
+    message: null,
   });
 
   return (
     <form action={formAction} className="inline">
       <button
         type="submit"
-        onClick={formAction}
         className="border border-blue-600 text-blue-700 px-4 py-2 rounded-lg bg-blue-100 hover:bg-blue-200 transition-colors duration-200"
       >
+        {state.message ? state.message : null}
         {isPending ? "Registering..." : `Register for ${course.name}`}
       </button>
     </form>
   );
 }
-
 
 ReigsterCourseButton.propTypes = {
   course: PropTypes.shape({

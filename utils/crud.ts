@@ -257,7 +257,8 @@ export async function registerForCourse(previousInput, formdata: FormData) {
       student_id,
     },
   });
-  redirect(`/courses/${course_id}`);
+  console.log("Created a newEnrolment",newEnrolment)
+  redirect(`/courses/${Number(course_id)}`);
 }
 
 export async function makeExamAnswerRecord(previousInput, formdata: FormData) {
