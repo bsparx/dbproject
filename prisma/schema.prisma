@@ -112,7 +112,7 @@ model CheckedAnswers {
   record         ExamAnswerRecord @relation(fields: [record_id], references: [record_id], onDelete: Cascade)
   question_id    Int
   student_answer String
-  score          Int              @default(1)
+  score          Int              @default(0)
   comments       String?
 }
 

@@ -8,7 +8,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     score: z
       .number()
       .describe(
-        "Give a score from 1 to 10. Compare the answer of the student with the answer of correct answer. 1 means Really bad and 10 means really good"
+        "Give a score from 0 to 10. Compare the answer of the student with the answer of correct answer. 0 means Really bad and 10 means really good"
       ),
     comments: z
       .string()

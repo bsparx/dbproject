@@ -1,8 +1,6 @@
 // Home.js
 
-
 import Link from "next/link";
-
 
 export default async function Home() {
   return (
@@ -95,7 +93,9 @@ export default async function Home() {
 
       {/* Footer */}
       <footer className="bg-gray-100 py-8 text-center text-gray-600 mt-12">
-        <p>&copy; {new Date().getFullYear()} Quiz Craft. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Quiz Craft. All rights reserved.
+        </p>
       </footer>
     </div>
   );
