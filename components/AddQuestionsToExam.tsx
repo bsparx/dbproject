@@ -1,6 +1,10 @@
-'use client'
+"use client";
 
-import { getCurrentExamQuestions, getQuestionsFromTopic } from "@/utils/crud";
+import {
+  getCurrentExamQuestions,
+  getQuestion,
+  getQuestionsFromTopic,
+} from "@/utils/crud";
 import { useEffect, useState } from "react";
 import AddToExam from "./AddToExam";
 import RemoveFromExam from "./RemoveFromExam";
@@ -9,10 +13,14 @@ export default function AddQuestionToExam({ exam_id, topics }) {
   const [currentTopic, setTopic] = useState(topics[0]?.topic_id || 0);
   const [questions, setQuestions] = useState([]);
   const [examQuestions, setExamQuestions] = useState([]);
+  const [refreshExisting, setRefreshExisting] = useState(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const fetchedQuestions = await getQuestionsFromTopic(Number(currentTopic));
+      const fetchedQuestions = await getQuestionsFromTopic(
+        Number(currentTopic)
+      );
+
       setQuestions(fetchedQuestions);
     };
 
@@ -26,7 +34,7 @@ export default function AddQuestionToExam({ exam_id, topics }) {
     };
 
     fetchExamQuestions();
-  }, [exam_id]);
+  }, [refreshExisting]);
 
   const handleRemoveQuestion = (question_id) => {
     setExamQuestions((prevQuestions) =>
@@ -35,8 +43,11 @@ export default function AddQuestionToExam({ exam_id, topics }) {
   };
 
   const handleAddQuestion = async (newQuestion) => {
-    console.log(newQuestion)
+    const { question_id } = newQuestion;
+    const question = await getQuestion(question_id);
+
     setExamQuestions((prevQuestions) => [...prevQuestions]);
+    setRefreshExisting(!refreshExisting);
   };
 
   return (
@@ -58,7 +69,9 @@ export default function AddQuestionToExam({ exam_id, topics }) {
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold text-green-700">Questions Already in Exam:</h3>
+        <h3 className="text-xl font-semibold text-green-700">
+          Questions Already in Exam:
+        </h3>
         {examQuestions.length > 0 ? (
           examQuestions.map((question) => (
             <div
@@ -79,7 +92,9 @@ export default function AddQuestionToExam({ exam_id, topics }) {
       </div>
 
       <div>
-        <h3 className="text-xl font-semibold text-blue-700">Available Questions for Topic:</h3>
+        <h3 className="text-xl font-semibold text-blue-700">
+          Available Questions for Topic:
+        </h3>
         {questions.length > 0 ? (
           questions.map((question) => (
             <div
@@ -95,7 +110,9 @@ export default function AddQuestionToExam({ exam_id, topics }) {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No questions available for this topic.</p>
+          <p className="text-gray-500">
+            No questions available for this topic.
+          </p>
         )}
       </div>
     </div>

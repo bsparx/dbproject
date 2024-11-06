@@ -301,3 +301,12 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
   redirect(`/exams/${record_id}/finalGrade`)
 
 }
+
+export async function getQuestion(question_id){
+  const question=await prisma.question.findUnique({
+    where:{
+      question_id:question_id
+    }
+  })
+  return question
+}
