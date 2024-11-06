@@ -8,16 +8,15 @@ const parser = StructuredOutputParser.fromZodSchema(
     score: z
       .number()
       .describe(
-        "Give a score from 0 to 10. Compare the answer of the student with the answer of correct answer. 0 means Really bad and 10 means really good"
+        "Be really really lenient in grading the question.Grade the student's response on a scale of 0 to 10 based on the accuracy and completeness of the concepts presented. Award a full score of 10 if the student demonstrates a correct understanding of all key concepts, regardless of whether the language used is paraphrased. Deduct points only for inaccuracies or omissions in the conceptual understanding."
       ),
     comments: z
       .string()
       .describe(
-        "Give a really insightful comment on what exactly the student did wrong"
+        "Provide insightful and specific feedback highlighting any errors or misconceptions in the student's answer, giving clear guidance on areas for improvement."
       ),
   })
 );
-
 const getPrompt = async (content) => {
   const format_instructions = parser.getFormatInstructions();
 
@@ -38,11 +37,11 @@ const getPrompt = async (content) => {
 export async function analyze(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "gpt-4o-mini",
+    model: "gpt-4o",
     temperature: 0,
     apiKey: process.env.OPENAI_API_KEY,
   });
-  console.log(input)
+  console.log(input);
   const aiMsg = await llm.invoke([
     {
       role: "user",

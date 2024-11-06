@@ -257,7 +257,7 @@ export async function registerForCourse(previousInput, formdata: FormData) {
       student_id,
     },
   });
-  console.log("Created a newEnrolment",newEnrolment)
+  console.log("Created a newEnrolment", newEnrolment);
   redirect(`/courses/${Number(course_id)}`);
 }
 
@@ -279,13 +279,13 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
     const analysis = await analyze(
       `This is the question:${
         question.question.text
-      },This is the correct answer: ${
+      },\nThis is the correct answer: ${
         question.question.correct_answer
-      },this is what the student answered ${formdata.get(
+      },\nthis is what the student answered ${formdata.get(
         `${question.question_id}answer`
       )}`
     );
-    console.log(analysis);
+
     const checkAnswer = await prisma.checkedAnswers.create({
       data: {
         record_id: record_id,
@@ -295,18 +295,15 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
         comments: analysis.comments,
       },
     });
-
-
   }
-  redirect(`/exams/${record_id}/finalGrade`)
-
+  redirect(`/exams/${record_id}/finalGrade`);
 }
 
-export async function getQuestion(question_id){
-  const question=await prisma.question.findUnique({
-    where:{
-      question_id:question_id
-    }
-  })
-  return question
+export async function getQuestion(question_id) {
+  const question = await prisma.question.findUnique({
+    where: {
+      question_id: question_id,
+    },
+  });
+  return question;
 }
