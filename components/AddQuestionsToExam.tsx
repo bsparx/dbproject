@@ -34,7 +34,8 @@ export default function AddQuestionToExam({ exam_id, topics }) {
     );
   };
 
-  const handleAddQuestion = (newQuestion) => {
+  const handleAddQuestion = async (newQuestion) => {
+    console.log(newQuestion)
     setExamQuestions((prevQuestions) => [...prevQuestions]);
   };
 
