@@ -5,7 +5,8 @@ import Link from "next/link";
 export default async function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+
+
       <section className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white py-20 px-5 text-center">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
@@ -30,14 +31,14 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
+
       <section className="py-16 px-5">
         <div className="max-w-6xl mx-auto text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
             Features
           </h2>
           <p className="text-gray-600 mt-4">
-            ExamHub simplifies the process for students and teachers with these
+            Quiz Craft simplifies the process for students and teachers with these
             key features:
           </p>
         </div>
@@ -73,7 +74,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Call to Action */}
+
       <section className="bg-indigo-600 py-16 px-5 text-center text-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -91,7 +92,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Footer */}
+
       <footer className="bg-gray-100 py-8 text-center text-gray-600 mt-12">
         <p>
           &copy; {new Date().getFullYear()} Quiz Craft. All rights reserved.
