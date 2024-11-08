@@ -274,7 +274,8 @@ export async function makeExamAnswerRecord(previousInput, formdata: FormData) {
 
 export async function gradeTheExam(previousInput, formdata: FormData) {
   const { record_id, ExamQuestions } = previousInput;
-  console.log(formdata);
+
+  let totalScore = 0;
   for (let question of ExamQuestions) {
     const analysis = await analyze(
       `This is the question:${
@@ -295,7 +296,20 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
         comments: analysis.comments,
       },
     });
+    totalScore = totalScore + analysis.score;
   }
+  const averageScore = (totalScore / ExamQuestions.length) * 10;
+  console.log(`Total score is:${totalScore}\n
+    the average score is ${averageScore}`);
+  await prisma.examAnswerRecord.update({
+    where: {
+      record_id: record_id,
+    },
+    data: {
+      Status: "completed",
+      finalPercentage: averageScore,
+    },
+  });
   redirect(`/exams/${record_id}/finalGrade`);
 }
 

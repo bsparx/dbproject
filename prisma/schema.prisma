@@ -95,14 +95,15 @@ model ExamQuestions {
 }
 
 model ExamAnswerRecord {
-  record_id  Int      @id @default(autoincrement())
-  exam_id    Int
-  student_id Int
-  Status     Status   @default(incomplete)
-  exam       MockExam @relation(fields: [exam_id], references: [exam_id], onDelete: Cascade)
-  student    User     @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
-
-  CheckedAnswers CheckedAnswers[]
+  record_id       Int              @id @default(autoincrement())
+  exam_id         Int
+  student_id      Int
+  Status          Status           @default(incomplete)
+  exam            MockExam         @relation(fields: [exam_id], references: [exam_id], onDelete: Cascade)
+  student         User             @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
+  finalPercentage Float            @default(0.0)
+  updated         DateTime         @updatedAt @default(now())
+  CheckedAnswers  CheckedAnswers[]
 }
 
 model CheckedAnswers {
