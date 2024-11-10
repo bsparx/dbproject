@@ -25,6 +25,7 @@ export async function createCourse(previousInput, formdata: FormData) {
 
 export async function addTopic(previousInput, formdata: FormData) {
   const { courseId, message } = previousInput;
+ 
   const newTopic = await prisma.topic.create({
     data: {
       course_id: courseId,
@@ -280,9 +281,9 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
     const analysis = await analyze(
       `This is the question:${
         question.question.text
-      },\nThis is the correct answer: ${
+      },\nThis is the correct answer, compare this to the student's answer.: ${
         question.question.correct_answer
-      },\nthis is what the student answered ${formdata.get(
+      },The correct answer ends here. The rest is the answer written by the student:\nthis is what the student answered ${formdata.get(
         `${question.question_id}answer`
       )}`
     );
@@ -299,8 +300,7 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
     totalScore = totalScore + analysis.score;
   }
   const averageScore = (totalScore / ExamQuestions.length) * 10;
-  console.log(`Total score is:${totalScore}\n
-    the average score is ${averageScore}`);
+
   await prisma.examAnswerRecord.update({
     where: {
       record_id: record_id,

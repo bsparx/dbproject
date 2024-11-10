@@ -8,7 +8,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     score: z
       .number()
       .describe(
-        "Aim to give the student a 10 whenever possible. Grade the student's response on a scale of 0 to 10, focusing on the presence of key concepts and overall understanding. Award a full score of 10 if the answer captures the essence and main points of the expected response, even if phrased differently. Deduct points sparingly and only for significant inaccuracies or major omissions in understanding. "
+        "Evaluate the student's response on a scale from 0 to 10. Assess based on the student’s understanding of the main concepts and accuracy, not on wording or phrasing. Provide a full score of 10 if the student demonstrates a correct and thorough understanding of the answer, even if the response is paraphrased. Deduct points only for significant inaccuracies or missing core concepts. Award a 0 only if the response is irrelevant or completely incorrect. If you cannot find the student's answer, give them a 0. If the answer is only a 'v' give them 0 "
       ),
     comments: z
       .string()
@@ -22,7 +22,7 @@ const getPrompt = async (content) => {
 
   const prompt = new PromptTemplate({
     template:
-      "Analyze the following questions.Don't deduct marks for differences in wording.Be really lenient in checking. Follow the intrusctions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
+      "Analyze the following questions.Don't deduct marks for differences in wording.Be really lenient in checking. Compare the student's answer with the correct answer for grading.Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { format_instructions },
   });
