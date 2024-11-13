@@ -2,12 +2,14 @@
 import AttemptPaper from "@/components/AttemptPaper";
 import { prisma } from "@/utils/db";
 import { getUser } from "@/utils/user";
+import { isAlreadyChecked } from "@/utils/validation";
 import { redirect } from "next/navigation";
 
 export default async function page({ params }) {
   const { recordId } = await params;
   const user = await getUser();
 
+await isAlreadyChecked(recordId)
   // Check if the student is authorized to access the record
   const checkAuthenticity = await prisma.examAnswerRecord.findFirst({
     where: {

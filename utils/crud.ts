@@ -25,7 +25,7 @@ export async function createCourse(previousInput, formdata: FormData) {
 
 export async function addTopic(previousInput, formdata: FormData) {
   const { courseId, message } = previousInput;
- 
+
   const newTopic = await prisma.topic.create({
     data: {
       course_id: courseId,
@@ -264,6 +264,16 @@ export async function registerForCourse(previousInput, formdata: FormData) {
 
 export async function makeExamAnswerRecord(previousInput, formdata: FormData) {
   const { exam_id, student_id } = previousInput;
+  const checkIfItExists = await prisma.examAnswerRecord.findFirst({
+    where: {
+      exam_id: Number(exam_id),
+      student_id: Number(student_id),
+      Status: "incomplete",
+    },
+  });
+  if (checkIfItExists) {
+    redirect(`/exams/${checkIfItExists.record_id}`);
+  }
   const createNewExamAnswerRecord = await prisma.examAnswerRecord.create({
     data: {
       exam_id: Number(exam_id),

@@ -24,7 +24,7 @@ const chartData = [
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
+    label: "OMG",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
