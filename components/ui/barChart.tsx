@@ -9,18 +9,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "January", desktop: 186 },
-];
 
 const chartConfig = {
   desktop: {
@@ -29,28 +17,36 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Component() {
+export function Component({ records }) {
+  const chartData = records;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Your average marks</CardTitle>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer
+          config={chartConfig}
+          style={{
+            width: "100%", // Set desired width
+            height: "35rem", // Set desired height
+          }}
+        >
           <BarChart
-            width={400} // Adjust width here
-            height={300} // Adjust height here
-            accessibilityLayer
             data={chartData}
             margin={{
-              top: 20,
+              top: 20, // Adjust margins to fit the smaller size
+              right: 10,
+              left: 10,
+              bottom: 10,
             }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="name"
               tickLine={false}
-              tickMargin={10}
+              tickMargin={8} // Adjust margins for ticks
               axisLine={false}
               tickFormatter={(value) => value.slice(0, 3)}
             />
@@ -58,12 +54,12 @@ export function Component() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8}>
+            <Bar dataKey="percentage" fill="var(--color-desktop)" radius={8}>
               <LabelList
                 position="top"
-                offset={12}
+                offset={8} // Reduce offset to match smaller bars
                 className="fill-foreground"
-                fontSize={12}
+                fontSize={10} // Adjust font size for labels
               />
             </Bar>
           </BarChart>
