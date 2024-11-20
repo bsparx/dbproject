@@ -4,7 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
-  title: "Quizlet",
+  title: "Quiz Craft",
   description: "For your preparation!!",
 };
 
