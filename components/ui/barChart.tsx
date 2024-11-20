@@ -48,7 +48,7 @@ export function Component({ records }) {
               tickLine={false}
               tickMargin={8} // Adjust margins for ticks
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value.slice(0, 6)}
             />
             <ChartTooltip
               cursor={false}
