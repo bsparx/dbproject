@@ -11,36 +11,58 @@ export default function CreateCourse({ user }) {
   const [active, setActive] = useState(false);
 
   return (
-    <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
-      <button
-        className="border w-full py-2 rounded-lg bg-blue-500 text-white font-bold hover:bg-blue-600 transition"
-        onClick={() => setActive(!active)}
-      >
-        {!active ? "Create a Course" : "Close Form"}
-      </button>
-
-      {active ? (
-        <form action={formAction} className="mt-6">
-          <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
-            Enter the course name
-          </label>
-          <input
-            className="border h-10 w-full rounded-lg px-3 mb-4 focus:ring-2 focus:ring-blue-400"
-            type="text"
-            name="name"
-            required
-          />
-          <button
-            className="w-full bg-blue-900 py-2 rounded-lg text-white font-semibold hover:bg-blue-700 transition"
+    <div className="w-full max-w-xl transform transition-all duration-300">
+      <div className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${active ? 'ring-2 ring-blue-500 ring-opacity-50' : ''}`}>
+        <button
+          className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold text-lg hover:from-blue-700 hover:to-blue-900 transition-all duration-300 flex items-center justify-center gap-2"
+          onClick={() => setActive(!active)}
+        >
+          <span>{!active ? "Create a New Course" : "Close Form"}</span>
+          <svg
+            className={`w-5 h-5 transition-transform duration-300 ${active ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
           >
-            Create Course
-          </button>
-          {state.message ? (
-            <h1 className="text-green-600 mt-4">{state.message}</h1>
-          ) : null}
-          {isPending ? <h1 className="text-blue-600 mt-4">Creating course...</h1> : null}
-        </form>
-      ) : null}
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        <div className={`transition-all duration-300 ease-in-out ${active ? 'opacity-100 max-h-96' : 'opacity-0 max-h-0'} overflow-hidden`}>
+          <form action={formAction} className="p-8">
+            <label htmlFor="name" className="block text-gray-700 font-semibold mb-3 text-lg">
+              Course Name
+            </label>
+            <input
+              className="w-full h-12 px-4 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-300 text-gray-800 text-lg mb-6"
+              type="text"
+              name="name"
+              placeholder="Enter course name..."
+              required
+            />
+            <button
+              className="w-full bg-gradient-to-r from-blue-800 to-blue-900 hover:from-blue-900 hover:to-blue-950 text-white font-semibold py-3 px-6 rounded-lg transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+            >
+              {isPending ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Creating...
+                </span>
+              ) : (
+                "Create Course"
+              )}
+            </button>
+            {state.message && (
+              <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-600 font-medium text-center">{state.message}</p>
+              </div>
+            )}
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
