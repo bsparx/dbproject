@@ -1,6 +1,6 @@
 # Quiz Craft
 
-A robust backend system built with [Prisma](https://www.prisma.io/) and designed for efficient data handling, user validation, and seamless integration with OpenAI's LangChain. This repository provides a scalable foundation for managing SQL queries, optimizing database connections, and enhancing user validation workflows. Built with **Next.js** for a full-stack architecture and styled using **ShadCN** for modern UI components.
+A robust backend system built with [Prisma](https://www.prisma.io/) and designed for efficient data handling, user validation, and seamless integration with OpenAI's LangChain. This repository provides a scalable foundation for managing SQL queries, optimizing database connections, and enhancing user validation workflows. Built with **Next.js** for a full-stack architecture, styled using **ShadCN** and **Tailwind CSS** for modern, responsive UI components.
 
 ---
 
@@ -10,7 +10,7 @@ A robust backend system built with [Prisma](https://www.prisma.io/) and designed
 - **AI-Powered Queries**: `Ai.ts` integrates with LangChain to generate structured JSON responses from ChatGPT queries, which can be parsed and stored efficiently.
 - **Optimized Database Handling**: `db.ts` extends Prisma's functionality to reuse database connections with Neon, minimizing overhead and improving performance.
 - **User Management**: `User.ts` handles user-related queries, while `validation.ts` ensures robust user data validation.
-- **Modern UI**: Built with **ShadCN** to provide clean and responsive user interfaces.
+- **Modern UI**: Built with **ShadCN** and **Tailwind CSS** to provide clean, responsive, and customizable designs.
 - **Full-Stack Flexibility**: Developed using **Next.js** to combine server-side logic with client-side rendering seamlessly.
 
 ---
@@ -45,6 +45,6 @@ The `utils` folder contains the core backend logic and utilities:
 - [Prisma](https://www.prisma.io/)  
 - A [Neon](https://neon.tech/) database instance  
 - [Next.js](https://nextjs.org/)  
+- [Tailwind CSS](https://tailwindcss.com/)  
 
 ---
-
