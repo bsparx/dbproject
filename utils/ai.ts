@@ -37,8 +37,7 @@ const getPrompt = async (content) => {
 export async function analyze(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "gpt-4o-mini",
-    temperature: 0,
+    model: "o1-mini",
     apiKey: process.env.OPENAI_API_KEY,
   });
 
