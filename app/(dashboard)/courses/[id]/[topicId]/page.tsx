@@ -4,6 +4,7 @@ import { prisma } from "@/utils/db";
 import { getUser } from "@/utils/user";
 import Link from "next/link";
 import { BookOpen, FileQuestion, Calendar, TrendingUp } from "lucide-react";
+import { notFound } from "next/navigation";
 
 export default async function page({ params }) {
   const { id, topicId } = await params;
@@ -12,10 +13,13 @@ export default async function page({ params }) {
     where: { topic_id: Number(topicId) },
   });
 
-  const topic = await prisma.topic.findUniqueOrThrow({
+  const topic = await prisma.topic.findUnique({
     where: { topic_id: Number(topicId) },
     include: { course: true },
   });
+  if(!topic){
+    notFound()
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
