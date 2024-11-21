@@ -8,12 +8,12 @@ const parser = StructuredOutputParser.fromZodSchema(
     score: z
       .number()
       .describe(
-        "Evaluate the student's response on a scale from 0 to 10. Assess based on the student’s understanding of the main concepts and accuracy, not on wording or phrasing. Provide a full score of 10 if the student demonstrates a correct and thorough understanding of the answer, even if the response is paraphrased. Deduct points only for significant inaccuracies or missing core concepts. Award a 0 only if the response is irrelevant or completely incorrect. If you cannot find the student's answer, give them a 0. If the answer is only a 'v' give them 0 "
+        "Assign a score between 0 and 10 based on the student's comprehension and accuracy of the main concepts. The evaluation should be lenient towards paraphrased answers as long as the core ideas are correctly conveyed. A score of 10 indicates a thorough and accurate understanding, even if the response is rephrased. Deduct points for significant inaccuracies or omissions of essential concepts. Assign a 0 only if the response is entirely irrelevant, incorrect, or missing. If the student's answer is not found or is a single character like 'v', assign a 0."
       ),
     comments: z
       .string()
       .describe(
-        "Offer encouraging and constructive feedback, emphasizing strengths in the student's answer and gently pointing out areas for further clarification or detail if needed. Highlight any significant errors while also acknowledging what the student did well."
+        "Provide constructive and encouraging feedback on the student's response. Highlight the strengths, such as accurate understanding of key concepts and effective communication, even if paraphrased. Gently point out areas where the answer could be improved, such as missing details or minor inaccuracies. Ensure the feedback is supportive, aiming to guide the student towards a deeper understanding without discouragement."
       ),
   })
 );
