@@ -55,7 +55,7 @@ export default async function page({ params }) {
                   <TrendingUp className="w-5 h-5 text-purple-500" /> Difficulty
                 </span>
                 {topic.course.teacher_id === user.user_id && (
-                  <span className="col-span-1 text-center">Actions</span>
+                  <span className="col-span-1 text-center pl-2">Actions</span>
                 )}
               </div>
 
@@ -63,7 +63,7 @@ export default async function page({ params }) {
                 {questions.map((question) => (
                   <div
                     key={question.question_id}
-                    className={`grid grid-cols-12 px-3 py-4 rounded-xl items-center shadow-sm hover:shadow-md transition-all duration-300 ${
+                    className={`w-full grid grid-cols-12 px-3 py-4 rounded-xl items-center shadow-sm hover:shadow-md transition-all duration-300 ${
                       question.difficulty >= 8
                         ? "bg-red-50 border-red-200 hover:bg-red-100"
                         : question.difficulty < 8 && question.difficulty >= 4
@@ -90,7 +90,7 @@ export default async function page({ params }) {
                     </span>
                     {topic.course.teacher_id === user.user_id && (
                       <Link
-                        className="col-span-1 text-center text-blue-600 font-bold hover:underline transition hover:text-blue-800"
+                        className="col-span-1 text-center text-blue-600 font-bold hover:underline transition hover:text-blue-800 pl-7"
                         href={`/question/${question.question_id}`}
                       >
                         Edit

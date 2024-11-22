@@ -23,10 +23,12 @@ export default function AddQuestion({ topicid, course_id }) {
         {active ? "Hide Form" : "Create a New Question"}
       </button>
 
-      {active && (
+      <div className={`overflow-hidden transition-all duration-300 ${active ? "mt-6" : "mt-0"}`}>
         <form
           action={formAction}
-          className="mt-6 p-6 border-2 border-blue-100 rounded-xl bg-blue-50/50 space-y-6"
+          className={`border-2 border-blue-100 rounded-xl bg-blue-50/50 p-6 space-y-6 transition-all duration-300 ${
+            active ? "opacity-100 transform translate-y-0" : "opacity-0 transform -translate-y-4 pointer-events-none h-0 p-0"
+          }`}
         >
           <div>
             <label 
@@ -113,7 +115,7 @@ export default function AddQuestion({ topicid, course_id }) {
             </p>
           )}
         </form>
-      )}
+      </div>
     </div>
   );
 }

@@ -115,13 +115,13 @@ export default async function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-800 py-8 text-center text-gray-300">
+      <footer className="bg-gray-800 py-8 text-center text-gray-300" id="footer">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} Quiz Craft. All rights reserved.
         </p>
         <div className="mt-4 space-x-4 text-sm">
-          <Link href="/privacy" className="hover:text-white transition">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-white transition">Terms of Service</Link>
+          <Link href="#footer" className="hover:text-white transition">Privacy Policy</Link>
+          <Link href="#footer" className="hover:text-white transition">Terms of Service</Link>
         </div>
       </footer>
     </div>
