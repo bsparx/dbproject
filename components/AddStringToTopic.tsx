@@ -37,6 +37,7 @@ export default function AddStringToTopic({ topicId, contentString }) {
             }
             onChange={handleTextChange}
             minLength={999}
+            maxLength={200000}
           />
           <div className="absolute bottom-2 right-2 text-sm text-slate-500">
             {charCount}/1000 characters
@@ -45,6 +46,12 @@ export default function AddStringToTopic({ topicId, contentString }) {
         {charCount < 1000 && charCount > 0 && (
           <p className="text-amber-600 text-sm">
             Please enter at least 1000 characters ({1000 - charCount} more
+            needed)
+          </p>
+        )}
+        {charCount > 200000 && (
+          <p className="text-amber-600 text-sm">
+            Please enter less than 200000 characters ({charCount - 200000} less
             needed)
           </p>
         )}
