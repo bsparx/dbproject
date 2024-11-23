@@ -331,3 +331,21 @@ export async function getQuestion(question_id) {
   });
   return question;
 }
+
+export async function addContentToTopic(previousInput, formdata: FormData) {
+  const { topicId } = previousInput;
+
+  const content = formdata.get("content");
+  const value = await prisma.topic.update({
+    where: {
+      topic_id: Number(topicId),
+    },
+    data: {
+      contentString: formdata.get("content"),
+    },
+  });
+  return {
+    topicId,
+    message:"Succesfully added content"
+  }
+}

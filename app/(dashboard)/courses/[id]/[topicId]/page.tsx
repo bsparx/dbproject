@@ -1,9 +1,8 @@
-// page.js
 import AddQuestion from "@/components/AddQuestion";
 import { prisma } from "@/utils/db";
 import { getUser } from "@/utils/user";
 import Link from "next/link";
-import { BookOpen, FileQuestion, Calendar, TrendingUp } from "lucide-react";
+import { BookOpen, FileQuestion, Calendar, TrendingUp, Plus } from "lucide-react";
 import { notFound } from "next/navigation";
 
 export default async function page({ params }) {
@@ -36,7 +35,13 @@ export default async function page({ params }) {
         </div>
 
         {topic.course.teacher_id === user.user_id && (
-          <div className="p-6">
+          <div className="p-6 space-y-4">
+            <Link href={`/courses/${id}/${topicId}/generateQuestions`}>
+              <button className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-semibold hover:from-emerald-600 hover:to-emerald-700">
+                <Plus className="w-5 h-5" />
+                Generate new Questions
+              </button>
+            </Link>
             <AddQuestion topicid={topicId} course_id={id} />
           </div>
         )}

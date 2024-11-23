@@ -26,8 +26,8 @@ export default function AddQuestion({ topicid, course_id }) {
       <div className={`overflow-hidden transition-all duration-300 ${active ? "mt-6" : "mt-0"}`}>
         <form
           action={formAction}
-          className={`border-2 border-blue-100 rounded-xl bg-blue-50/50 p-6 space-y-6 transition-all duration-300 ${
-            active ? "opacity-100 transform translate-y-0" : "opacity-0 transform -translate-y-4 pointer-events-none h-0 p-0"
+          className={`border-2 border-blue-100 rounded-xl bg-blue-50/50  space-y-6 transition-all duration-300 ${
+            active ? "opacity-100 transform translate-y-0 p-6" : "opacity-0 transform -translate-y-4 pointer-events-none h-0 p-0"
           }`}
         >
           <div>
