@@ -344,6 +344,8 @@ export async function addContentToTopic(previousInput, formdata: FormData) {
       contentString: formdata.get("content"),
     },
   });
+
+  redirect(`/courses/${value.course_id}/${value.topic_id}/generateQuestions`)
   return {
     topicId,
     message:"Succesfully added content"
