@@ -1,4 +1,5 @@
 import { getTopic } from "@/utils/getters";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function page({params}){
@@ -10,6 +11,8 @@ if(!topic?.contentString){
 
 return(
     <div>
+        <Link href={`courses/${id}/${topicId}/editContent`}>
+        <button>Edit Content</button></Link>
         Generate Questions Page
     </div>
 )

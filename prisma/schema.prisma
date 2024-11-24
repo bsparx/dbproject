@@ -59,6 +59,8 @@ model Topic {
   contentString String? 
   course    Course     @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
   questions Question[]
+
+  BufferQuestions BufferQuestions[]
 }
 
 model Question {
@@ -126,4 +128,14 @@ model Enrollment {
   course        Course @relation(fields: [course_id], references: [course_id])
 
   @@unique([student_id, course_id])
+}
+
+model BufferQuestions {
+  question_id    Int              @id @default(autoincrement())
+  topic_id       Int
+  text           String
+  correct_answer String
+  difficulty     Int              @default(5) // nifficulty from 0-10
+  topic          Topic            @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
+  createdOn      DateTime         @default(now())
 }
