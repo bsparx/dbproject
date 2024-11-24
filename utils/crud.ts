@@ -5,6 +5,7 @@ import { prisma } from "./db";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/router";
 import { analyze } from "./ai";
+import { getGeneratedQuestionJson } from "./generateQuestions";
 
 export async function createCourse(previousInput, formdata: FormData) {
   const { userId } = previousInput;
@@ -345,9 +346,75 @@ export async function addContentToTopic(previousInput, formdata: FormData) {
     },
   });
 
-  redirect(`/courses/${value.course_id}/${value.topic_id}/generateQuestions`)
+  redirect(`/courses/${value.course_id}/${value.topic_id}/generateQuestions`);
   return {
     topicId,
-    message:"Succesfully added content"
-  }
+    message: "Succesfully added content",
+  };
+}
+
+export async function generateQuestion(previousInput, formdata: FormData) {
+  console.log(previousInput, formdata);
+  const questions = await prisma.question.findMany({
+    where: {
+      topic_id: Number(previousInput.topicId),
+    },
+  });
+  const bufferQuestions = await prisma.bufferQuestions.findMany({
+    where: {
+      topic_id: Number(previousInput.topicId),
+    },
+  });
+  const topic = await prisma.topic.findFirst({
+    where: {
+      topic_id: Number(previousInput.topicId),
+    },
+  });
+  const prompt = `This is the content:${topic?.contentString}.\n
+  These questions have already been added: ${questions.map((e, index) => {
+    return `${index}: ${e.text} \n`;
+  })} ${
+    bufferQuestions &&
+    bufferQuestions.map((e, index) => {
+      return `${index}: ${e.text} \n`;
+    })
+  }  
+  This is the users prompt; ${formdata.get("input")}
+  `;
+  const data = await getGeneratedQuestionJson(prompt);
+  await prisma.bufferQuestions.create({
+    data:{
+      topic_id:Number(previousInput.topicId),
+      text:data.question,
+      correct_answer:data.markingScheme,
+      difficulty:data.difficulty
+    }
+  })
+ revalidatePath(`/courses/${previousInput.id}/${previousInput.topicId}/generateQuestions`)
+  return {
+    topicId: previousInput.topicId,
+    comment: "Question successfully generated",
+    id: previousInput.id,
+  };
+}
+
+export async function editBufferQuestion(previousInput, formdata: FormData) {
+  const { question_id } = previousInput;
+  const difficulty = Number(formdata.get("difficulty"));
+
+  await prisma.bufferQuestions.update({
+    where: {
+      question_id: question_id,
+    },
+    data: {
+      text: formdata.get("text"),
+      correct_answer: formdata.get("correct_answer"),
+      difficulty: difficulty,
+    },
+  });
+  revalidatePath(`/question/${question_id}`);
+  return {
+    question_id: question_id,
+    message: "Sucessfully updated the question!!",
+  };
 }
