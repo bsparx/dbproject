@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { deleteQuestion, editQuestion } from "@/utils/crud";
+import { deleteBufferInEdit, deleteQuestion, editBufferQuestion, editQuestion } from "@/utils/crud";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 import { Save, Trash2, ArrowLeft, AlertTriangle } from "lucide-react";
@@ -9,11 +9,11 @@ import { Save, Trash2, ArrowLeft, AlertTriangle } from "lucide-react";
 function EditBufferQuestion({ question }) {
   const router = useRouter();
 
-  const [state, formAction, isPending] = useActionState(editQuestion, {
+  const [state, formAction, isPending] = useActionState(editBufferQuestion, {
     question_id: question.question_id,
     message: null,
   });
-  const [deleteState, deleteAction, deleteIsPending] = useActionState(deleteQuestion, {
+  const [deleteState, deleteAction, deleteIsPending] = useActionState(deleteBufferInEdit, {
     question_id: question.question_id,
     message: null,
   });
@@ -134,4 +134,4 @@ function EditBufferQuestion({ question }) {
   );
 }
 
-export default EditQuestion;
+export default EditBufferQuestion;

@@ -383,20 +383,63 @@ export async function generateQuestion(previousInput, formdata: FormData) {
   `;
   const data = await getGeneratedQuestionJson(prompt);
   await prisma.bufferQuestions.create({
-    data:{
-      topic_id:Number(previousInput.topicId),
-      text:data.question,
-      correct_answer:data.markingScheme,
-      difficulty:data.difficulty
-    }
-  })
- revalidatePath(`/courses/${previousInput.id}/${previousInput.topicId}/generateQuestions`)
+    data: {
+      topic_id: Number(previousInput.topicId),
+      text: data.question,
+      correct_answer: data.markingScheme,
+      difficulty: data.difficulty,
+    },
+  });
+  revalidatePath(
+    `/courses/${previousInput.id}/${previousInput.topicId}/generateQuestions`
+  );
   return {
     topicId: previousInput.topicId,
     comment: "Question successfully generated",
     id: previousInput.id,
   };
 }
+
+export async function addBufferQuestionToBank(previousInput) {
+  const data = await prisma.bufferQuestions.delete({
+    where: {
+      question_id: previousInput.bufferQuestion.question_id,
+    },
+  });
+  await prisma.question.create({
+    data: {
+      topic_id: previousInput.bufferQuestion.topic_id,
+      text: previousInput.bufferQuestion.text,
+      correct_answer: previousInput.bufferQuestion.correct_answer,
+      difficulty: previousInput.bufferQuestion.difficulty,
+    },
+  });
+  revalidatePath(
+    `/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`
+  );
+  return {
+    id: previousInput.id,
+    bufferQuestion: previousInput.bufferQuestion,
+    comment: "Success",
+  };
+}
+
+export async function deleteBufferQuestion(previousInput) {
+  const data = await prisma.bufferQuestions.delete({
+    where: {
+      question_id: previousInput.bufferQuestion.question_id,
+    },
+  });
+  revalidatePath(
+    `/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`
+  );
+  return {
+    id: previousInput.id,
+    bufferQuestion: previousInput.bufferQuestion,
+    comment: "Deleted",
+  };
+}
+
 
 export async function editBufferQuestion(previousInput, formdata: FormData) {
   const { question_id } = previousInput;
@@ -412,9 +455,29 @@ export async function editBufferQuestion(previousInput, formdata: FormData) {
       difficulty: difficulty,
     },
   });
-  revalidatePath(`/question/${question_id}`);
+  revalidatePath(`/bufferquestion/${question_id}`);
   return {
     question_id: question_id,
     message: "Sucessfully updated the question!!",
   };
+}
+
+export async function deleteBufferInEdit(previousInput){
+  const {question_id}=previousInput;
+  const course = await prisma.bufferQuestions.findUnique({
+    where: {
+      question_id: question_id,
+    },
+    include: {
+      topic: true,
+    },
+  });
+  await prisma.bufferQuestions.delete({
+    where: {
+      question_id: question_id,
+    },
+  });
+  revalidatePath(`/courses/${course?.topic.course_id}/${course?.topic_id}/generateQuestions`);
+  redirect(`/courses/${course?.topic.course_id}/${course?.topic_id}/generateQuestions`);
+
 }
