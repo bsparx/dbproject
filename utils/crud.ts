@@ -417,7 +417,7 @@ export async function addBufferQuestionToBank(previousInput) {
   revalidatePath(
     `/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`
   );
-  redirect(`/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`)
+
 }
 
 export async function deleteBufferQuestion(previousInput) {
@@ -474,6 +474,6 @@ export async function deleteBufferInEdit(previousInput){
     },
   });
   revalidatePath(`/courses/${course?.topic.course_id}/${course?.topic_id}/generateQuestions`);
-  redirect(`/courses/${course?.topic.course_id}/${course?.topic_id}/generateQuestions`);
+
 
 }
