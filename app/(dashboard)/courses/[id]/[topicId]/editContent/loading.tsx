@@ -9,9 +9,9 @@ export default function Loading() {
           <CardTitle className="text-2xl font-bold text-center text-slate-800">
             <Skeleton className="h-8 w-1/2 mx-auto" />
           </CardTitle>
-          <p className="text-center text-slate-600">
+          <div className="text-center text-slate-600">
             <Skeleton className="h-4 w-3/4 mx-auto" />
-          </p>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">

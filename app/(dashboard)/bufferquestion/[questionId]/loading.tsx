@@ -48,7 +48,7 @@ export default function Loading() {
       <div className="fixed inset-0 flex items-center justify-center bg-white/50 backdrop-blur-sm z-50">
         <div className="flex flex-col items-center justify-center">
           <Loader2 className="h-12 w-12 text-blue-500 animate-spin" />
-          <p className="mt-4 text-gray-600 font-semibold">Loading Question...</p>
+        
         </div>
       </div>
     </div>
