@@ -417,6 +417,7 @@ export async function addBufferQuestionToBank(previousInput) {
   revalidatePath(
     `/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`
   );
+  redirect(`/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`)
 }
 
 export async function deleteBufferQuestion(previousInput) {
