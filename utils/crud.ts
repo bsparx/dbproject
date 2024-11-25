@@ -417,11 +417,6 @@ export async function addBufferQuestionToBank(previousInput) {
   revalidatePath(
     `/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`
   );
-  return {
-    id: previousInput.id,
-    bufferQuestion: previousInput.bufferQuestion,
-    comment: "Success",
-  };
 }
 
 export async function deleteBufferQuestion(previousInput) {
