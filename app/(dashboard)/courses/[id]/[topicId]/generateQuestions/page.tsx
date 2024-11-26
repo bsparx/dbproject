@@ -44,7 +44,7 @@ export default async function Page({ params }) {
         ) : (
           <div className="grid gap-6">
             {bufferQuestions.map((question, index) => (
-      <GeneratedQuestion question={question} id={id}/>
+      <GeneratedQuestion question={question} id={id} key={question.question_id}/>
             ))}
           </div>
         )}
