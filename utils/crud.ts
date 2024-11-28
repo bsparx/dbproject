@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { useRouter } from "next/router";
 import { analyze } from "./ai";
 import { getGeneratedQuestionJson } from "./generateQuestions";
+import { getUser } from "./user";
 
 export async function createCourse(previousInput, formdata: FormData) {
   const { userId } = previousInput;
@@ -417,7 +418,6 @@ export async function addBufferQuestionToBank(previousInput) {
   revalidatePath(
     `/courses/${previousInput.id}/${previousInput.bufferQuestion.topic_id}/generateQuestions`
   );
-
 }
 
 export async function deleteBufferQuestion(previousInput) {
@@ -435,7 +435,6 @@ export async function deleteBufferQuestion(previousInput) {
     comment: "Deleted",
   };
 }
-
 
 export async function editBufferQuestion(previousInput, formdata: FormData) {
   const { question_id } = previousInput;
@@ -458,8 +457,8 @@ export async function editBufferQuestion(previousInput, formdata: FormData) {
   };
 }
 
-export async function deleteBufferInEdit(previousInput){
-  const {question_id}=previousInput;
+export async function deleteBufferInEdit(previousInput) {
+  const { question_id } = previousInput;
   const course = await prisma.bufferQuestions.findUnique({
     where: {
       question_id: question_id,
@@ -473,7 +472,59 @@ export async function deleteBufferInEdit(previousInput){
       question_id: question_id,
     },
   });
-  revalidatePath(`/courses/${course?.topic.course_id}/${course?.topic_id}/generateQuestions`);
+  revalidatePath(
+    `/courses/${course?.topic.course_id}/${course?.topic_id}/generateQuestions`
+  );
+}
 
+export async function makeStudentExam(previousInput, formdata) {
+  const user = await getUser();
+  const { topic, course_id } = previousInput;
+  const questions = [];
+  console.log(formdata.get("ExamName"));
+  for (let top of topic) {
+    console.log(
+      `Difficulty: ${Number(formdata.get(`difficulty-${top.topic_id}`))}`
+    );
+    const data = await prisma.question.findMany({
+      where: {
+        topic_id: top.topic_id,
+        difficulty: {
+          lte: Number(formdata.get(`difficulty-${top.topic_id}`)),
+        },
+      },
+      take: Number(formdata.get(`questions-${top.topic_id}`)),
+    });
 
+    questions.push(...data);
+  }
+  const totalDifficulty = questions.reduce((current, sum) => {
+    return current + sum.difficulty;
+  }, 0);
+  const average_difficulty = totalDifficulty / questions.length;
+
+  const mockExam = await prisma.mockExam.create({
+    data: {
+      name: formdata.get("ExamName"),
+      created_by: "system",
+      student_id: user.user_id,
+      average_difficulty: average_difficulty,
+      course_id: Number(course_id),
+    },
+  });
+  for (let question of questions) {
+    const createdQuestion = await prisma.examQuestions.create({
+      data: {
+        exam_id: mockExam.exam_id,
+        question_id: question.question_id,
+      },
+    });
+  }
+
+  console.log("IT HECKEN WORKS")
+  return {
+    course_id: previousInput.course_id,
+    topic: previousInput.topic,
+    message: "Worked",
+  };
 }

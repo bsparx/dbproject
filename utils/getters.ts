@@ -35,3 +35,14 @@ export async function getTopics(topic_id) {
 
   return topic;
 }
+
+
+export async function getUserExams(user_id){
+const Exams=await prisma.mockExam.findMany({
+  where:{
+    student_id:user_id,
+    created_by:'system'
+  }
+})
+return Exams
+}
