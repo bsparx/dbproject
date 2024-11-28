@@ -521,7 +521,7 @@ export async function makeStudentExam(previousInput, formdata) {
     });
   }
 
-  console.log("IT HECKEN WORKS")
+redirect('/exams')
   return {
     course_id: previousInput.course_id,
     topic: previousInput.topic,

@@ -122,7 +122,7 @@ export default async function CoursePage({ params }) {
         {/* Mock Exams Section */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-3xl font-bold text-blue-900 text-center mb-8">
-            Mock Exams
+            Teachers' Mock Exams
           </h2>
 
           {user.user_id === course.teacher_id && (
