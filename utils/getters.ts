@@ -22,3 +22,16 @@ export async function getBufferQuestionsForTopic(topic_id) {
 
   return questions;
 }
+
+export async function getTopics(topic_id) {
+  const topic = await prisma.topic.findMany({
+    where: {
+      course_id: Number(topic_id),
+    },
+    include: {
+      questions: true,
+    },
+  });
+
+  return topic;
+}

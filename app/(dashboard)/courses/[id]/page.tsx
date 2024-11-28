@@ -35,11 +35,12 @@ export default async function page({ params }) {
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="text-center mb-10">
         <h1 className="font-extrabold text-4xl text-blue-900 underline">
+       
           {course.name}
         </h1>
         <h2 className="font-bold text-3xl text-gray-700 mt-4">Topics</h2>
       </div>
-
+      <Link href={`/courses/${id}/generateExam`}> Generate Exam</Link>
       {user.user_id === course.teacher_id && (
         <div className="mb-8">
           <AddTopic course={course} />

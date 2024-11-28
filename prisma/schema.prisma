@@ -39,6 +39,7 @@ model User {
   answers ExamAnswerRecord[]
 
   Enrollment Enrollment[]
+  MockExam   MockExam[]
 }
 
 model Course {
@@ -53,12 +54,12 @@ model Course {
 }
 
 model Topic {
-  topic_id  Int        @id @default(autoincrement())
-  course_id Int
-  name      String
-  contentString String? 
-  course    Course     @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
-  questions Question[]
+  topic_id      Int        @id @default(autoincrement())
+  course_id     Int
+  name          String
+  contentString String?
+  course        Course     @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
+  questions     Question[]
 
   BufferQuestions BufferQuestions[]
 }
@@ -79,6 +80,8 @@ model MockExam {
   exam_id            Int                @id @default(autoincrement())
   name               String
   created_by         CreatedBy
+  student_id         Int?
+  Student            User?              @relation(fields: [student_id], references: [user_id])
   date               DateTime           @default(now())
   average_difficulty Float              @default(0.0)
   course_id          Int
@@ -105,7 +108,7 @@ model ExamAnswerRecord {
   exam            MockExam         @relation(fields: [exam_id], references: [exam_id], onDelete: Cascade)
   student         User             @relation(fields: [student_id], references: [user_id], onDelete: Cascade)
   finalPercentage Float            @default(0.0)
-  updated         DateTime         @updatedAt @default(now())
+  updated         DateTime         @default(now()) @updatedAt
   CheckedAnswers  CheckedAnswers[]
 }
 
@@ -131,11 +134,11 @@ model Enrollment {
 }
 
 model BufferQuestions {
-  question_id    Int              @id @default(autoincrement())
+  question_id    Int      @id @default(autoincrement())
   topic_id       Int
   text           String
   correct_answer String
-  difficulty     Int              @default(5) // nifficulty from 0-10
-  topic          Topic            @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
-  createdOn      DateTime         @default(now())
+  difficulty     Int      @default(5) // nifficulty from 0-10
+  topic          Topic    @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
+  createdOn      DateTime @default(now())
 }

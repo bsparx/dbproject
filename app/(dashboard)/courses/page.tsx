@@ -56,18 +56,14 @@ export default async function CoursesPage() {
                   ? "Start by creating your first course"
                   : "Explore and enroll in courses that interest you"}
               </p>
-              {user.role === "student" && 
+              {user.role === "student" && (
                 <Link
-                  href={
-                  "/register"
-                  }
+                  href={"/register"}
                   className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
                 >
                   Browse Courses
                 </Link>
-
-              }
-
+              )}
             </div>
           </div>
         ) : (

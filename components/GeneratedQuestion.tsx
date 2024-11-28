@@ -14,9 +14,9 @@ export default function GeneratedQuestion({ question,id }) {
         <div className="flex items-center justify-between mb-4">
           <span
             className={`px-4 py-1.5 rounded-full text-sm font-medium ${
-              question.difficulty < 4
+              question.difficulty < 5
                 ? "bg-green-100 text-green-800"
-                : question.difficulty > 4 && question.difficulty < 7
+                : question.difficulty > 4 && question.difficulty < 8
                 ? "bg-yellow-100 text-yellow-800"
                 : "bg-red-100 text-red-800"
             }`}
