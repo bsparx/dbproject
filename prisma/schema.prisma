@@ -60,6 +60,7 @@ model Topic {
   contentString String?
   course        Course     @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
   questions     Question[]
+  createdAt     DateTime   @default(now())
 
   BufferQuestions BufferQuestions[]
 }

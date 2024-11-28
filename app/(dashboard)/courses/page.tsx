@@ -11,6 +11,7 @@ export default async function CoursesPage() {
       where: {
         teacher_id: user.user_id,
       },
+      
     });
   } else {
     courses = await getYourCourses(user.user_id);

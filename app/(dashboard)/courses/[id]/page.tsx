@@ -47,7 +47,7 @@ export default async function CoursePage({ params }) {
           </p>
         </div>
 
-        {/* Generate Exam Button */}
+    
         <div className="flex justify-center mb-8">
           <Link href={`/courses/${id}/generateExam`}>
             <button className="
@@ -119,7 +119,7 @@ export default async function CoursePage({ params }) {
           </div>
         </div>
 
-        {/* Mock Exams Section */}
+
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-3xl font-bold text-blue-900 text-center mb-8">
             Teachers' Mock Exams
