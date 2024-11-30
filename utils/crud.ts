@@ -483,9 +483,6 @@ export async function makeStudentExam(previousInput, formdata) {
   const questions = [];
   console.log(formdata.get("ExamName"));
   for (let top of topic) {
-    console.log(
-      `Difficulty: ${Number(formdata.get(`difficulty-${top.topic_id}`))}`
-    );
     const data = await prisma.question.findMany({
       where: {
         topic_id: top.topic_id,

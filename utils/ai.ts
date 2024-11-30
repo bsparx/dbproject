@@ -8,7 +8,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     score: z
       .number()
       .describe(
-        "Assign a score between 0 and 10 based on the student's comprehension and accuracy of the main concepts. The evaluation should be lenient towards paraphrased answers as long as the core ideas are correctly conveyed. A score of 10 indicates a thorough and accurate understanding, even if the response is rephrased. Deduct points for significant inaccuracies or omissions of essential concepts. Assign a 0 only if the response is entirely irrelevant, incorrect, or missing. If the student's answer is not found or is a single character like 'v', assign a 0."
+        "Use the marking scheme and percentage breakdown to grade the example. The percentage breakdown is not part of the answer, it's only for you(The AI) to grade the exam.Assign a score between 0 and 10 based on the student's comprehension and accuracy of the main concepts. The evaluation should be lenient towards paraphrased answers as long as the core ideas are correctly conveyed. A score of 10 indicates a thorough and accurate understanding, even if the response is rephrased. Deduct points for significant inaccuracies or omissions of essential concepts. Assign a 0 only if the response is entirely irrelevant, incorrect, or missing. If the student's answer is not found or is a single character like 'v', assign a 0."
       ),
     comments: z
       .string()
