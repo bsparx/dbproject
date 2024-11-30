@@ -8,7 +8,7 @@ import { Suspense } from "react";
 
 export default async function page({ params }) {
   const user = await getUser();
-  const { questionId } = params;
+  const { questionId } = await params;
   const question = await prisma.bufferQuestions.findUniqueOrThrow({
     where: {
       question_id: Number(questionId),
