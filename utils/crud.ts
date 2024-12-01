@@ -360,10 +360,17 @@ export async function generateQuestion(previousInput, formdata: FormData) {
     where: {
       topic_id: Number(previousInput.topicId),
     },
+
+    orderBy: {
+      createdOn: 'asc',
+    },
   });
   const bufferQuestions = await prisma.bufferQuestions.findMany({
     where: {
       topic_id: Number(previousInput.topicId),
+    },
+    orderBy: {
+      createdOn: 'asc',
     },
   });
   const topic = await prisma.topic.findFirst({
@@ -518,7 +525,7 @@ export async function makeStudentExam(previousInput, formdata) {
     });
   }
 
-redirect('/exams')
+  redirect("/exams");
   return {
     course_id: previousInput.course_id,
     topic: previousInput.topic,
