@@ -4,7 +4,7 @@ import { getUser } from "@/utils/user";
 import { redirect } from "next/navigation";
 
 export default async function Page({ params }) {
-  const { quizId } = params;
+  const { quizId } = await params;
   const { user_id } = await getUser();
   
   const quiz = await prisma.mockExam.findUnique({
