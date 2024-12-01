@@ -93,3 +93,18 @@ export async function getTeacherCourses(user_id) {
   });
   return courses;
 }
+
+
+export async function getAllUserCourses(user_id) {
+  const enrollments = await prisma.enrollment.findMany({
+    where: {
+      student_id: user_id,
+    },
+    include: {
+      course: true,
+    },
+  });
+  const courses = enrollments.map((enrollment) => enrollment.course);
+
+  return courses;
+}

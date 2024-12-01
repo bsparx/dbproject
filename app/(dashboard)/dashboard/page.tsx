@@ -1,15 +1,17 @@
-import { QuickStatsCard, RecentCoursesCard, RecentExamsCard, RecentReportsCard } from "@/components/Dashboard";
+import {  RecentCoursesCard, RecentExamsCard, RecentReportsCard } from "@/components/Dashboard";
+
 
 export default async function Dashboard() {
-    const { get5Reports, get5UserExams, getTeacherCourses } = await import(
+    const { get5Reports, get5UserExams, getTeacherCourses,getAllUserCourses } = await import(
       "@/utils/getters"
     );
-    const { getUser, getYourCourses } = await import("@/utils/user");
+    const { getUser } = await import("@/utils/user");
   
     const user = await getUser();
     let courses = [];
     if (user.role === "student") {
-      courses = await getYourCourses(user.user_id);
+      courses = await getAllUserCourses(user.user_id);
+      console.log(courses)
     } else {
       courses = await getTeacherCourses(user.user_id);
     }
