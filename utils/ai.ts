@@ -13,7 +13,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     comments: z
       .string()
       .describe(
-        "Provide constructive and encouraging feedback on the student's response. Highlight the strengths, such as accurate understanding of key concepts and effective communication, even if paraphrased. Gently point out areas where the answer could be improved, such as missing details or minor inaccuracies. Ensure the feedback is supportive, aiming to guide the student towards a deeper understanding without discouragement."
+        "Provide clear, concise, and actionable feedback on the student's response. Begin by highlighting the strengths of the answer, such as accurate understanding of key concepts, effective argumentation, or clear communication. Then, identify specific areas for improvement, pointing out any missing information, misconceptions, or areas that lack clarity. Offer practical suggestions on how the student can enhance their response, ensuring the feedback is encouraging and aimed at fostering deeper understanding and skill development."
       ),
   })
 );
