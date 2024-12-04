@@ -5,15 +5,15 @@ import { z } from "zod";
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
-    score: z
-      .number()
-      .describe(
-        "Use the marking scheme and percentage breakdown to grade the example. The percentage breakdown is not part of the answer, it's only for you(The AI) to grade the exam.Assign a score between 0 and 10 based on the student's comprehension and accuracy of the main concepts. The evaluation should be lenient towards paraphrased answers as long as the core ideas are correctly conveyed. A score of 10 indicates a thorough and accurate understanding, even if the response is rephrased. Deduct points for significant inaccuracies or omissions of essential concepts. Assign a 0 only if the response is entirely irrelevant, incorrect, or missing. If the student's answer is not found or is a single character like 'v', assign a 0."
-      ),
     comments: z
       .string()
       .describe(
-        "Provide clear, concise, and actionable feedback on the student's response. Begin by highlighting the strengths of the answer, such as accurate understanding of key concepts, effective argumentation, or clear communication. Then, identify specific areas for improvement, pointing out any missing information, misconceptions, or areas that lack clarity. Offer practical suggestions on how the student can enhance their response, ensuring the feedback is encouraging and aimed at fostering deeper understanding and skill development."
+        "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a brief explanation. Highlight strengths and weaknesses, ensuring the breakdown directly reflects the marking scheme and final score. Be precise and concise."
+      ),
+    score: z
+      .number()
+      .describe(
+        "Grade the exam answer by fully accepting paraphrased responses. Evaluate solely on conceptual accuracy and understanding. Score from 0-10, adjusting expectations based on question difficulty (1-10). Prioritize the core meaning and substantive content. Zero points only for completely irrelevant or missing responses. If all the requirements in the marking scheme are met properly, give them full marks."
       ),
   })
 );
@@ -30,14 +30,14 @@ const getPrompt = async (content) => {
   const input = await prompt.format({
     entry: content,
   });
-
+console.log(input)
   return input;
 };
 
 export async function analyze(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "gpt-4o-mini",
+    model: "o1-mini",
     apiKey: process.env.OPENAI_API_KEY,
   });
 
@@ -49,6 +49,7 @@ export async function analyze(prompt) {
   ]);
   try {
     const parsedData = await parser.parse(aiMsg.content);
+    console.log(parsedData);
     return parsedData;
   } catch (e) {
     return "It didn't work";

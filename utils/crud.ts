@@ -293,13 +293,15 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
     const analysis = await analyze(
       `This is the question:${
         question.question.text
-      },\nThis is the correct answer, compare this to the student's answer.: ${
+      },\nThis is the difficulty of the question: ${
+        question.question.difficulty
+      }
+      \nThis is the correct answer, compare this to the student's answer.: ${
         question.question.correct_answer
       },The correct answer ends here. The rest is the answer written by the student:\nthis is what the student answered ${formdata.get(
         `${question.question_id}answer`
       )}`
     );
-
     const checkAnswer = await prisma.checkedAnswers.create({
       data: {
         record_id: record_id,
@@ -362,7 +364,7 @@ export async function generateQuestion(previousInput, formdata: FormData) {
     },
 
     orderBy: {
-      createdOn: 'asc',
+      createdOn: "asc",
     },
   });
   const bufferQuestions = await prisma.bufferQuestions.findMany({
@@ -370,7 +372,7 @@ export async function generateQuestion(previousInput, formdata: FormData) {
       topic_id: Number(previousInput.topicId),
     },
     orderBy: {
-      createdOn: 'asc',
+      createdOn: "asc",
     },
   });
   const topic = await prisma.topic.findFirst({
