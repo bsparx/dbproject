@@ -8,7 +8,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     comments: z
       .string()
       .describe(
-        "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a brief explanation. Highlight strengths and weaknesses, ensuring the breakdown directly reflects the marking scheme and final score. Be precise and concise."
+        "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a 1 line explanation.Ensure that the breakdown directly reflects the marking scheme and final score. Be precise and concise."
       ),
     score: z
       .number()
