@@ -37,7 +37,7 @@ console.log(input)
 export async function analyze(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "o1-mini",
+    model: "gpt-4o",
     apiKey: process.env.OPENAI_API_KEY,
   });
 
