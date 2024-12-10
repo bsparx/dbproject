@@ -298,7 +298,7 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
       }
       \nThis is the correct answer, compare this to the student's answer.: ${
         question.question.correct_answer
-      },The correct answer ends here. The rest is the answer written by the student:\nthis is what the student answered ${formdata.get(
+      },The correct answer ends here. The rest is the answer written by the student:\nthis is what the student answered: ${formdata.get(
         `${question.question_id}answer`
       )}`
     );

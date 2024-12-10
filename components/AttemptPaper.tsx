@@ -38,6 +38,7 @@ export default function AttemptPaper({ ExamQuestions, record_id }) {
                 id={`answer_${questions.question_id}`}
                 className="w-full h-40 p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ease-in-out duration-300 resize-y placeholder-gray-400"
                 placeholder="Type your answer here..."
+                minLength={10}
                 required
               />
             </div>

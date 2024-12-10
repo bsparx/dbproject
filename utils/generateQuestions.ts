@@ -11,10 +11,15 @@ const parser = StructuredOutputParser.fromZodSchema(
       .describe(
         "Generate a clear, relevant, and focused question based solely on the provided course material and the user's input prompt. Do not incorporate any external information. The question should directly reference the material to assess understanding of the core concepts."
       ),
-    markingScheme: z
+      markingScheme: z
       .string()
       .describe(
-        "Provide a comprehensive answer scheme that includes the correct answer to the generated question. Additionally, include a detailed marking scheme that allocates the 10 total marks. The marking scheme should clearly outline how each part of the answer contributes to the overall score, resembling standard educational marking schemes (e.g., Levels A-C or O-Level distinctions). Ensure that the total allocation equals exactly 10."
+        ` Create a clear, student-friendly marking scheme that:
+    - Divides 10 total marks logically
+    - Specifies exact mark allocation for each key component
+    - Provides brief, actionable guidance on earning marks
+    - Includes a model approach or key points for full marks
+    - Highlights critical areas of assessment`
       ),
     difficulty: z
       .number()
@@ -49,6 +54,7 @@ export async function getGeneratedQuestionJson(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
     model: "gpt-4o-mini",
+    temperature:0,
     apiKey: process.env.OPENAI_API_KEY,
   });
 
