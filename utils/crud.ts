@@ -260,7 +260,7 @@ export async function registerForCourse(previousInput, formdata: FormData) {
       student_id,
     },
   });
-  console.log("Created a newEnrolment", newEnrolment);
+
   redirect(`/courses/${Number(course_id)}`);
 }
 
@@ -357,7 +357,7 @@ export async function addContentToTopic(previousInput, formdata: FormData) {
 }
 
 export async function generateQuestion(previousInput, formdata: FormData) {
-  console.log(previousInput, formdata);
+
   const questions = await prisma.question.findMany({
     where: {
       topic_id: Number(previousInput.topicId),
@@ -490,7 +490,7 @@ export async function makeStudentExam(previousInput, formdata) {
   const user = await getUser();
   const { topic, course_id } = previousInput;
   const questions = [];
-  console.log(formdata.get("ExamName"));
+
   for (let top of topic) {
     const data = await prisma.question.findMany({
       where: {

@@ -5,15 +5,10 @@ import { z } from "zod";
 
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
-    comments: z
+    summary: z
       .string()
       .describe(
         "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a 1 line explanation.Ensure that the breakdown directly reflects the marking scheme and final score. Be precise and concise."
-      ),
-    score: z
-      .number()
-      .describe(
-        "Grade the exam answer by fully accepting paraphrased responses. Evaluate solely on conceptual accuracy and understanding. Score from 0-10, adjusting expectations based on question difficulty (1-10). Prioritize the core meaning and substantive content. Zero points only for completely irrelevant or missing responses. If all the requirements in the marking scheme are met properly, give them full marks."
       ),
   })
 );
@@ -22,7 +17,7 @@ const getPrompt = async (content) => {
 
   const prompt = new PromptTemplate({
     template:
-      "Analyze the following questions.Don't deduct marks for differences in wording.Be really lenient in checking. Compare the student's answer with the correct answer for grading.Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
+      "I want you to look at the content and the questions to give me a brief revision on the topics that are asked in the questions .Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { format_instructions },
   });
@@ -37,7 +32,7 @@ const getPrompt = async (content) => {
 export async function analyze(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "gpt-4o",
+    model: "gpt-4o-mini",
     apiKey: process.env.OPENAI_API_KEY,
   });
 

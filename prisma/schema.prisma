@@ -88,6 +88,7 @@ model MockExam {
   course_id          Int
   course             Course             @relation(fields: [course_id], references: [course_id], onDelete: Cascade)
   answers            ExamAnswerRecord[]
+  revisionString String?
 
   ExamQuestions ExamQuestions[]
 }
