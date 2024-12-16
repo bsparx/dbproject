@@ -8,8 +8,9 @@ const parser = StructuredOutputParser.fromZodSchema(
     comments: z
       .string()
       .describe(
-        "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a 1 line explanation.Ensure that the breakdown directly reflects the marking scheme and final score. Be precise and concise."
+        "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a 1-line summary. Conclude with the correct or ideal answer."
       ),
+
     score: z
       .number()
       .describe(
@@ -37,8 +38,9 @@ const getPrompt = async (content) => {
 export async function analyze(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "gpt-4o",
+    model: "gpt-4o-mini-2024-07-18",
     apiKey: process.env.OPENAI_API_KEY,
+    temperature: 0,
   });
 
   const aiMsg = await llm.invoke([
@@ -49,7 +51,7 @@ export async function analyze(prompt) {
   ]);
   try {
     const parsedData = await parser.parse(aiMsg.content);
-  
+
     return parsedData;
   } catch (e) {
     return "It didn't work";

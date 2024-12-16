@@ -14,12 +14,13 @@ const parser = StructuredOutputParser.fromZodSchema(
       markingScheme: z
       .string()
       .describe(
-        ` Create a clear, student-friendly marking scheme that:
-    - Divides 10 total marks logically
-    - Specifies exact mark allocation for each key component
-    - Provides brief, actionable guidance on earning marks
-    - Includes a model approach or key points for full marks
-    - Highlights critical areas of assessment`
+        `Create a comprehensive marking scheme for the question that totals 10 marks, structured as follows:
+        - Give a model answer to the question.
+        - Allocate marks to each major component of the answer based on its importance and complexity.
+        - Include clear guidance on what constitutes a complete, accurate response for each section.
+        - Provide examples or key points that should be mentioned for full marks.
+        - Offer a concise explanation of how partial marks should be awarded for incomplete or incorrect answers.
+        - Ensure that the scheme supports efficient evaluation and helps the student understand the criteria for earning full marks.`
       ),
     difficulty: z
       .number()
@@ -53,7 +54,7 @@ const getPrompt = async (content) => {
 export async function getGeneratedQuestionJson(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
-    model: "gpt-4o-mini",
+    model: "gpt-4o-mini-2024-07-18",
     temperature:0,
     apiKey: process.env.OPENAI_API_KEY,
   });

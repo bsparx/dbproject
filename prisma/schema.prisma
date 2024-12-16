@@ -70,7 +70,7 @@ model Question {
   topic_id       Int
   text           String
   correct_answer String
-  difficulty     Int              @default(5) // nifficulty from 0-10
+  difficulty     Int              @default(5) 
   topic          Topic            @relation(fields: [topic_id], references: [topic_id], onDelete: Cascade)
   createdOn      DateTime         @default(now())
   ExamQuestions  ExamQuestions[]
