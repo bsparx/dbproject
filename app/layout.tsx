@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
