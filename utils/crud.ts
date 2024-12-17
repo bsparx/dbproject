@@ -315,7 +315,7 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
   }
   const averageScore = (totalScore / ExamQuestions.length) * 10;
 
-  await prisma.examAnswerRecord.update({
+  const idk = await prisma.examAnswerRecord.update({
     where: {
       record_id: record_id,
     },
@@ -357,7 +357,6 @@ export async function addContentToTopic(previousInput, formdata: FormData) {
 }
 
 export async function generateQuestion(previousInput, formdata: FormData) {
-
   const questions = await prisma.question.findMany({
     where: {
       topic_id: Number(previousInput.topicId),

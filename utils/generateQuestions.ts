@@ -39,7 +39,7 @@ const getPrompt = async (content) => {
 
   const prompt = new PromptTemplate({
     template:
-      "IMPORTANT: DON't ASK ABOUT CONCEPTS THAT AREN't DISCUSSED IN THE PROMPT I PROVIDE.Analyze the provided content, the previous questions, and the user prompt carefully.Only use content that I've given to you, don't add material of your own to make the question. Generate new and unique questions that are relevant to the provided material and aligned with the user's intent. Do not repeat or closely resemble any previously generated questions. Ensure that the questions are diverse, well-structured, and cover different aspects of the material to encourage comprehensive understanding.Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
+      "IMPORTANT: DON't ASK ABOUT CONCEPTS THAT AREN't DISCUSSED IN THE PROMPT I PROVIDE.Analyze the provided content, the previous questions, and the user prompt carefully.Only use content that I've given to you, don't add material of your own to make the question. Generate new and unique questions that are relevant to the provided material and aligned with the user's intent. Make sure the marking-scheme totals to 10 marks. Ensure that the questions are diverse, well-structured, and cover different aspects of the material to encourage comprehensive understanding.Follow the instructions and format your response to match the format instructions, no matter what! \n{format_instructions}\n{entry}",
     inputVariables: ["entry"],
     partialVariables: { format_instructions },
   });
