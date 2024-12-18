@@ -497,6 +497,10 @@ export async function makeStudentExam(previousInput, formdata) {
         difficulty: {
           lte: Number(formdata.get(`difficulty-${top.topic_id}`)),
         },
+  
+      },
+      orderBy:{
+        difficulty:'desc'
       },
       take: Number(formdata.get(`questions-${top.topic_id}`)),
     });
