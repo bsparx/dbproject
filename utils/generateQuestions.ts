@@ -56,7 +56,7 @@ export async function getGeneratedQuestionJson(prompt) {
   const llm = new ChatOpenAI({
     model: "gpt-4o-mini-2024-07-18",
     temperature: 0.3, // Slightly increased for more natural language
-    maxTokens: 2000, // Add token limit to prevent overlong responses
+
     apiKey: process.env.OPENAI_API_KEY,
   });
 

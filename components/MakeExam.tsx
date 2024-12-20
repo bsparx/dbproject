@@ -93,6 +93,7 @@ export default function MakeExam({ topic, id }) {
                       type="number"
                       id={`num-questions-${top.topic_id}`}
                       name={`questions-${top.topic_id}`}
+                      defaultValue={0}
                       min={0}
                       max={top.questions.length}
                       className="
