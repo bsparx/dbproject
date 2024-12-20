@@ -83,7 +83,7 @@ export async function getRevisionString(prompt) {
   const input = await getPrompt(prompt);
   const llm = new ChatOpenAI({
     model: "gpt-4o-mini-2024-07-18", // or "gpt-4" depending on your needs
-    temperature: 0.3,
+    temperature: 0,
     maxTokens: 5000,
     apiKey: process.env.OPENAI_API_KEY,
   });
