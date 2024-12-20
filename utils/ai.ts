@@ -40,7 +40,8 @@ export async function analyze(prompt) {
   const llm = new ChatOpenAI({
     model: "gpt-4o-mini-2024-07-18",
     apiKey: process.env.OPENAI_API_KEY,
-    temperature: 0,
+    temperature: 0, 
+    maxTokens: 2000, // Add token limit to prevent overlong responses
   });
 
   const aiMsg = await llm.invoke([

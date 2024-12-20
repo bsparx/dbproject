@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import { analyze } from "./ai";
 import { getGeneratedQuestionJson } from "./generateQuestions";
 import { getUser } from "./user";
+import { getRevisionString } from "./revisionString";
+
 
 export async function createCourse(previousInput, formdata: FormData) {
   const { userId } = previousInput;
@@ -274,7 +276,7 @@ export async function makeExamAnswerRecord(previousInput, formdata: FormData) {
     },
   });
   if (checkIfItExists) {
-    redirect(`/exams/${checkIfItExists.record_id}`);
+    redirect(`/exams/${checkIfItExists.record_id}/revision`);
   }
   const createNewExamAnswerRecord = await prisma.examAnswerRecord.create({
     data: {
@@ -282,7 +284,7 @@ export async function makeExamAnswerRecord(previousInput, formdata: FormData) {
       student_id: Number(student_id),
     },
   });
-  redirect(`/exams/${createNewExamAnswerRecord.record_id}`);
+  redirect(`/exams/${createNewExamAnswerRecord.record_id}/revision`);
 }
 
 export async function gradeTheExam(previousInput, formdata: FormData) {
@@ -497,10 +499,9 @@ export async function makeStudentExam(previousInput, formdata) {
         difficulty: {
           lte: Number(formdata.get(`difficulty-${top.topic_id}`)),
         },
-  
       },
-      orderBy:{
-        difficulty:'desc'
+      orderBy: {
+        difficulty: "desc",
       },
       take: Number(formdata.get(`questions-${top.topic_id}`)),
     });
@@ -512,6 +513,17 @@ export async function makeStudentExam(previousInput, formdata) {
   }, 0);
   const average_difficulty = totalDifficulty / questions.length;
 
+  const prompt = ` These are the questions and their marking schemes ${questions.map(
+    (question, index) => {
+      return `${index + 1} The question is :${
+        question.text
+      } \n the marking scheme is ${question.correct_answer}\n`;
+    }
+  
+  )}`;
+
+  const revisionData = await getRevisionString(prompt)
+
   const mockExam = await prisma.mockExam.create({
     data: {
       name: formdata.get("ExamName"),
@@ -519,8 +531,10 @@ export async function makeStudentExam(previousInput, formdata) {
       student_id: user.user_id,
       average_difficulty: average_difficulty,
       course_id: Number(course_id),
+      revisionString: revisionData.revisionGuide,
     },
   });
+
   for (let question of questions) {
     const createdQuestion = await prisma.examQuestions.create({
       data: {

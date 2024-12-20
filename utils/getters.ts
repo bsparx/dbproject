@@ -108,3 +108,14 @@ export async function getAllUserCourses(user_id) {
 
   return courses;
 }
+
+
+export async function getTotalQuestions(exam_id){
+  const questions=await prisma.examQuestions.count({
+where:{
+  exam_id:exam_id
+}
+  })
+
+  return questions
+}
