@@ -8,7 +8,7 @@ const parser = StructuredOutputParser.fromZodSchema(
     comments: z
       .string()
       .describe(
-        "Generate a detailed marks breakdown with specific component scores. Format MUST include: individual criterion scores (X.X/Y.Y format), total score, and a 1-line summary. Conclude with the correct or ideal answer."
+        "Generate a detailed marks breakdown that will be rendered with react-markdown. Output MUST be in markdown format with: \n- Headers using #\n- Component scores in **bold** (X.X/Y.Y format)\n- Lists using proper markdown syntax\n- Code blocks where relevant using ```\n- Emphasis using *italics* where appropriate\nInclude: component scores breakdown, total score, 1-line summary, and correct answer explanation."
       ),
 
     score: z
@@ -18,6 +18,7 @@ const parser = StructuredOutputParser.fromZodSchema(
       ),
   })
 );
+
 const getPrompt = async (content) => {
   const format_instructions = parser.getFormatInstructions();
 
@@ -40,6 +41,7 @@ export async function analyze(prompt) {
   const llm = new ChatOpenAI({
     model: "gpt-4o-mini-2024-07-18",
     apiKey: process.env.OPENAI_API_KEY,
+    maxTokens:-1,
     temperature: 0, 
 
   });

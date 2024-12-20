@@ -1,8 +1,10 @@
 import React from 'react';
 import { Trophy, Star, Zap, Shield } from 'lucide-react';
 import { prisma } from '@/utils/db';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
-// Difficulty icons and colors
+// Difficulty icons and colors remain the same
 const difficultyMap = {
   easy: { 
     icon: <Star className="w-5 h-5 text-green-500" />, 
@@ -35,7 +37,7 @@ export default async function GradeOverviewPage({ params }) {
   const finalTotal = data.reduce((sum, value) => sum + value.score, 0);
   const finalPercentage = (finalTotal / (data.length * 10)) * 100;
 
-  // Enhanced grade color determination
+  // Grade details function remains the same
   const getGradeDetails = (percentage) => {
     if (percentage >= 90) return {
       color: 'bg-gradient-to-br from-emerald-400 to-emerald-600',
@@ -74,10 +76,100 @@ export default async function GradeOverviewPage({ params }) {
 
   const gradeDetails = getGradeDetails(finalPercentage);
 
+  // Custom components for ReactMarkdown
+  const MarkdownComponents = {
+    h1: ({node, ...props}) => (
+      <h1 
+        className="text-3xl font-bold mb-6 bg-gradient-to-r  from-blue-600 to-blue-400 bg-clip-text text-transparent" 
+        {...props} 
+      />
+    ),
+    h2: ({node, ...props}) => (
+      <h2 
+        className="text-2xl font-bold mb-4 text-blue-800 border-b border-blue-100 pb-2" 
+        {...props} 
+      />
+    ),
+    h3: ({node, ...props}) => (
+      <h3 
+        className="text-xl font-semibold mb-3 text-blue-700" 
+        {...props} 
+      />
+    ),
+    p: ({node, ...props}) => (
+      <p 
+        className="mb-4 text-gray-700 leading-relaxed text-base" 
+        {...props} 
+      />
+    ),
+    ul: ({node, ...props}) => (
+      <ul 
+        className=" mb-6" 
+        {...props} 
+      />
+    ),
+    ol: ({node, ...props}) => (
+      <ol 
+        className=" space-y-2 mb-6 counter-reset-item" 
+        {...props} 
+      />
+    ),
+    li: ({node, ...props}) => (
+      <li 
+        className="flex items-start space-x-2  text-gray-700"
+        {...props}
+      >
+     
+        <span>{props.children}</span>
+      </li>
+    ),
+    code: ({node, inline, ...props}) => (
+      inline ? 
+        <code 
+          className="px-1.5 py-0.5 bg-blue-50 text-blue-700 rounded font-mono text-sm border border-blue-100" 
+          {...props} 
+        /> :
+        <code 
+          className="block bg-gray-50 p-4 rounded-lg text-sm font-mono my-4 border-l-4 border-blue-400 overflow-x-auto shadow-sm" 
+          {...props} 
+        />
+    ),
+    blockquote: ({node, ...props}) => (
+      <blockquote 
+        className="border-l-4 border-blue-400 pl-4 py-2 my-4 bg-blue-50 rounded-r-lg italic text-gray-700"
+        {...props} 
+      />
+    ),
+    a: ({node, ...props}) => (
+      <a 
+        className="text-blue-600 hover:text-blue-800 underline underline-offset-2 transition-colors duration-200" 
+        {...props} 
+      />
+    ),
+    strong: ({node, ...props}) => (
+      <strong 
+        className="font-bold text-blue-900" 
+        {...props} 
+      />
+    ),
+    em: ({node, ...props}) => (
+      <em 
+        className="text-blue-800 italic" 
+        {...props} 
+      />
+    ),
+    hr: ({node, ...props}) => (
+      <hr 
+        className="my-8 border-t-2 border-blue-100" 
+        {...props} 
+      />
+    ),
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="w-full max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-blue-100 ">
-        {/* Header */}
+      <div className="w-full max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden border border-blue-100">
+        {/* Header remains the same */}
         <div className={`${gradeDetails.color} ${gradeDetails.textColor} py-8 px-10 text-center relative overflow-hidden`}>
           <div className="absolute -top-10 -right-10 opacity-20">
             {gradeDetails.trophy}
@@ -93,9 +185,8 @@ export default async function GradeOverviewPage({ params }) {
         {/* Question Details */}
         <div className="p-8 space-y-6">
           {data.map((record, index) => {
-            // Determine difficulty based on some criteria (you might want to adjust this)
             const difficulty = record.score <= 4 ? 'hard' : 
-                               record.score <= 7 ? 'medium' : 'easy';
+                             record.score <= 7 ? 'medium' : 'easy';
             const difficultyInfo = difficultyMap[difficulty];
 
             return (
@@ -119,13 +210,11 @@ export default async function GradeOverviewPage({ params }) {
                     </span>
                   </div>
                   
-                  {/* Question Text */}
                   <p className="text-gray-700 text-base">
                     <span className="font-semibold text-blue-800">Question: </span>
                     {record.question.text}
                   </p>
                   
-                  {/* Student's Answer */}
                   <div>
                     <p className="font-semibold text-blue-800 mb-2">Your Answer:</p>
                     <p className={`p-3 rounded-lg ${record.score === 10 ? 'bg-green-50 text-green-800' : 'bg-yellow-50 text-yellow-800'}`}>
@@ -133,11 +222,20 @@ export default async function GradeOverviewPage({ params }) {
                     </p>
                   </div>
                   
-                  {/* Teacher's Comments */}
                   {record.comments && (
-                    <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                      <p className="font-semibold text-blue-800 mb-2">Instructor's Feedback:</p>
-                      <p className="text-gray-700 italic">{record.comments}</p>
+                    <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                  
+                  <div className="prose prose-blue max-w-none">
+  <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-50">
+    <ReactMarkdown 
+      components={MarkdownComponents}
+      className="space-y-4 text-gray-700"
+      remarkPlugins={[remarkGfm]}
+    >
+      {record.comments}
+    </ReactMarkdown>
+  </div>
+</div>
                     </div>
                   )}
                 </div>
@@ -146,7 +244,7 @@ export default async function GradeOverviewPage({ params }) {
           })}
         </div>
 
-        {/* Final Grade Section */}
+        {/* Final Grade Section remains the same */}
         <div className={`p-10 text-center ${gradeDetails.color} ${gradeDetails.textColor} border-t border-blue-100`}>
           <h2 className="text-2xl font-bold mb-6">Final Grade</h2>
           <div className="flex items-center justify-center space-x-8">

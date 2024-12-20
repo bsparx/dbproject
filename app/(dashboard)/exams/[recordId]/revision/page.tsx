@@ -3,11 +3,11 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { Clock, Book, ArrowLeft, BookOpen, CheckCircle } from "lucide-react";
+import {  Book, ArrowLeft } from "lucide-react";
 import { prisma } from "@/utils/db";
 import { getUser } from "@/utils/user";
 import { getTotalQuestions } from '@/utils/getters';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+
 
 export default async function Page({ params }) {
   const { recordId } = await params;
@@ -71,7 +71,7 @@ export default async function Page({ params }) {
                       Back
                     </Button>
                   </Link>
-                  <Link href={`/exams/${exam.record_id}`}>
+                  <Link href={`/exams/${recordId}`}>
                     <Button className="bg-white text-blue-600 hover:bg-blue-50">
                       Start Exam
                     </Button>
