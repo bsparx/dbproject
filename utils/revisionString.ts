@@ -6,7 +6,7 @@ import { z } from "zod";
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     revisionGuide: z.string().describe(
-      "Create a comprehensive revision guide that covers the core concepts, theories, and principles tested in the provided questions. Include relevant examples, definitions, and explanations without directly revealing specific answers. Format the content using React markdown styling with headers, subheaders, bullet points, and emphasis where appropriate. Focus on building foundational understanding of the topics."
+      "Create an extensive revision guide that goes beyond the direct scope of the questions to ensure complete topic understanding. Start with foundational concepts and progress chronologically to advanced applications. Include prerequisite knowledge, bridging concepts, and related topics that aren't directly tested but are crucial for deep understanding. Add relevant real-world examples, common misconceptions, and connecting principles. Incorporate active learning prompts, self-assessment questions, and metacognitive strategies. Include exam technique tips specific to the topic. Use React markdown styling for clear presentation of all content including supplementary materials. While covering exam topics comprehensively, expand the context to create a complete learning resource that promotes deep understanding and effective revision strategies."
     )
   })
 );
@@ -14,18 +14,65 @@ const parser = StructuredOutputParser.fromZodSchema(
 const getPrompt = async (content) => {
   const format_instructions = parser.getFormatInstructions();
   const prompt = new PromptTemplate({
-    template: `Based on the following exam questions and marking schemes, create a detailed revision guide that will help students understand the underlying concepts and prepare effectively:
+    template: `Analyze these exam questions and marking schemes, then create a comprehensive revision guide that includes both tested material and essential supporting concepts:
 
 {entry}
 
-Generate a revision guide that:
-- Covers all key topics and themes from the questions
-- Explains core concepts and principles
-- Provides relevant examples and applications
+Generate an extensive revision guide that:
+- Starts with foundational concepts and prerequisites
+- Includes necessary background information not directly tested
+- Explains bridging concepts that connect different topics
+- Addresses common misconceptions and pitfalls
+- Provides real-world applications and examples
+- Includes relevant theories/concepts that complement tested material
+- Progresses logically through increasingly complex topics
+- Organizes content chronologically/sequentially
+- Builds understanding systematically
+- Covers all key topics from the questions thoroughly
 - Uses clear structure with sections and subsections
-- Includes definitions and terminology
+- Includes definitions, terminology, and key principles
+- Adds helpful diagrams, equations, or illustrations where beneficial
+- Highlights connections between different concepts
+- Explains practical applications and significance
 - Avoids directly revealing specific answers
 - Uses React markdown formatting for clear presentation
+
+Consider adding:
+- Historical context where relevant
+- Latest developments in the field
+- Alternative approaches or viewpoints
+- Problem-solving strategies
+- Visual aids and memory techniques
+- Quick reference summaries
+- Practice scenarios (different from exam questions)
+
+Enhance learning with:
+- "Check Your Understanding" questions at key points
+- Active recall prompts throughout the guide
+- Common exam question types and how to approach them
+- Topic-specific exam technique tips
+- Mind map suggestions for visual learners
+- Mnemonics and memory aids where helpful
+- "Deep Dive" sections for advanced understanding
+- "Quick Review" sections for last-minute revision
+- Cross-references to related topics
+- Self-assessment checklists
+- Time management suggestions for exam questions
+- "Common Pitfalls" warnings
+- "Key Takeaways" summaries after each section
+- Interactive elements (where markdown allows)
+- Suggested spaced repetition schedule
+- Topic-specific study strategies
+
+Structure each major section with:
+1. Overview and learning objectives
+2. Core content with examples
+3. Common misconceptions addressed
+4. Practice opportunities
+5. Summary and key points
+6. Self-assessment elements
+7. Links to related topics
+8. Exam strategy specific to that topic
 
 {format_instructions}`,
     inputVariables: ["entry"],
