@@ -3,10 +3,11 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { Clock, Book, ArrowLeft } from "lucide-react";
+import { Clock, Book, ArrowLeft, BookOpen, CheckCircle } from "lucide-react";
 import { prisma } from "@/utils/db";
 import { getUser } from "@/utils/user";
 import { getTotalQuestions } from '@/utils/getters';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default async function Page({ params }) {
   const { recordId } = await params;
@@ -34,7 +35,7 @@ export default async function Page({ params }) {
             <div className="text-xl font-semibold text-gray-700 dark:text-gray-300">
               Exam not found
             </div>
-            <Link href="/exams" className="mt-4 inline-block">
+            <Link href="/exams">
               <Button className="mt-4">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Return to Exams
@@ -49,14 +50,14 @@ export default async function Page({ params }) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto py-8 px-4 animate-fadeIn">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto space-y-6">
+          {/* Main Exam Card */}
           <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
             <CardHeader className="space-y-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white rounded-t-lg">
               <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                 <div className="space-y-2">
                   <CardTitle className="text-3xl font-bold">{exam.name}</CardTitle>
                   <div className="flex items-center space-x-4 text-blue-100">
-
                     <div className="flex items-center">
                       <Book className="h-4 w-4 mr-2" />
                       <span className="text-sm">{NoOfQuestions} questions</span>
@@ -70,7 +71,7 @@ export default async function Page({ params }) {
                       Back
                     </Button>
                   </Link>
-                  <Link href={`/exams/${recordId}`}>
+                  <Link href={`/exams/${exam.record_id}`}>
                     <Button className="bg-white text-blue-600 hover:bg-blue-50">
                       Start Exam
                     </Button>
@@ -78,15 +79,26 @@ export default async function Page({ params }) {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="p-6">
+
+            {/* Quick Overview Alert */}
+            <CardContent className="p-6 space-y-6">
+           
+
+              {/* Content Section */}
               <div className="prose prose-lg max-w-none dark:prose-invert">
                 <ReactMarkdown
                   components={{
                     h1: ({ node, ...props }) => (
-                      <h1 className="text-3xl font-bold mb-6 mt-8 text-gray-800 dark:text-gray-100" {...props} />
+                      <h1 className="text-3xl font-bold mb-6 mt-8 text-gray-800 dark:text-gray-100 border-b pb-2 border-gray-200 dark:border-gray-700" {...props} />
                     ),
                     h2: ({ node, ...props }) => (
-                      <h2 className="text-2xl font-semibold mb-4 mt-6 text-gray-700 dark:text-gray-200" {...props} />
+                      <h2 className="text-2xl font-semibold mb-4 mt-6 text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <span {...props} />
+                      </h2>
+                    ),
+                    h3: ({ node, ...props }) => (
+                      <h3 className="text-xl font-medium mb-3 mt-4 text-gray-600 dark:text-gray-300" {...props} />
                     ),
                     p: ({ node, ...props }) => (
                       <p className="mb-4 leading-relaxed text-gray-600 dark:text-gray-300" {...props} />
@@ -109,6 +121,9 @@ export default async function Page({ params }) {
                     code: ({ node, ...props }) => (
                       <code className="bg-gray-100 dark:bg-gray-800 rounded px-2 py-1 font-mono text-sm" {...props} />
                     ),
+                    hr: ({ node, ...props }) => (
+                      <hr className="my-8 border-gray-200 dark:border-gray-700" {...props} />
+                    ),
                   }}
                 >
                   {exam.revisionString}
@@ -120,4 +135,6 @@ export default async function Page({ params }) {
       </div>
     </div>
   );
-}
+};
+
+
