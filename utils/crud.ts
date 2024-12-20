@@ -300,7 +300,7 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
     },\n\n\n\nThe following is the student's answer: ${formdata.get(
       `${question.question_id}answer`
     )}`;
-console.log(prompt)
+
     const analysis = await gradeTheQuestion(prompt);
 
     const checkAnswer = await prisma.checkedAnswers.create({
