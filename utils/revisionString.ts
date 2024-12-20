@@ -8,7 +8,11 @@ const parser = StructuredOutputParser.fromZodSchema(
     revisionGuide: z.string().describe(
       "Create an extensive revision guide that goes beyond the direct scope of the questions to ensure complete topic understanding. Start with foundational concepts and progress chronologically to advanced applications. Include prerequisite knowledge, bridging concepts, and related topics that aren't directly tested but are crucial for deep understanding. Add relevant real-world examples, common misconceptions, and connecting principles. Incorporate active learning prompts, self-assessment questions, and metacognitive strategies. Include exam technique tips specific to the topic. Use React markdown styling for clear presentation of all content including supplementary materials. While covering exam topics comprehensively, expand the context to create a complete learning resource that promotes deep understanding and effective revision strategies."
     )
-  })
+  }).describe(`CRITICAL FORMAT REQUIREMENTS:
+1. Return valid JSON with a single field named 'revisionGuide'
+2. Properly escape all special characters in the markdown content
+3. Avoid using characters that could break JSON structure
+4. Use consistent markdown formatting throughout`)
 );
 
 const getPrompt = async (content) => {
@@ -104,7 +108,7 @@ export async function getRevisionString(prompt) {
     
     return parsedData;
   } catch (e) {
-    console.error("Error generating revision guide:", e);
+   
     return {
       revisionGuide: "Error generating revision guide. Please try again."
     };

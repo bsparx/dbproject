@@ -4,11 +4,10 @@ import { redirect } from "next/navigation";
 import { prisma } from "./db";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/router";
-import { analyze } from "./ai";
+import { analyze, gradeTheQuestion } from "./ai";
 import { getGeneratedQuestionJson } from "./generateQuestions";
 import { getUser } from "./user";
 import { getRevisionString } from "./revisionString";
-
 
 export async function createCourse(previousInput, formdata: FormData) {
   const { userId } = previousInput;
@@ -290,20 +289,20 @@ export async function makeExamAnswerRecord(previousInput, formdata: FormData) {
 export async function gradeTheExam(previousInput, formdata: FormData) {
   const { record_id, ExamQuestions } = previousInput;
 
-  let totalScore = 0;
+  let totalScore = 0.0;
+  let prompt = "";
   for (let question of ExamQuestions) {
-    const analysis = await analyze(
-      `This is the question:${
-        question.question.text
-      },\nThis is the difficulty of the question: ${
-        question.question.difficulty
-      }
-      \nThis is the correct answer, compare this to the student's answer.: ${
-        question.question.correct_answer
-      },The correct answer ends here. The rest is the answer written by the student:\nthis is what the student answered: ${formdata.get(
-        `${question.question_id}answer`
-      )}`
-    );
+    prompt = `This is the question:${
+      question.question.text
+    },\nThis is the difficulty of the question: ${question.question.difficulty}
+\nThis is the marking scheme, use this to grade the question(THis is not the answer the student wrote).: ${
+      question.question.correct_answer
+    },\n\n\n\nThe following is the student's answer: ${formdata.get(
+      `${question.question_id}answer`
+    )}`;
+console.log(prompt)
+    const analysis = await gradeTheQuestion(prompt);
+
     const checkAnswer = await prisma.checkedAnswers.create({
       data: {
         record_id: record_id,
@@ -313,8 +312,10 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
         comments: analysis.comments,
       },
     });
+
     totalScore = totalScore + analysis.score;
   }
+
   const averageScore = (totalScore / ExamQuestions.length) * 10;
 
   const idk = await prisma.examAnswerRecord.update({
@@ -519,10 +520,9 @@ export async function makeStudentExam(previousInput, formdata) {
         question.text
       } \n the marking scheme is ${question.correct_answer}\n`;
     }
-  
   )}`;
 
-  const revisionData = await getRevisionString(prompt)
+  const revisionData = await getRevisionString(prompt);
 
   const mockExam = await prisma.mockExam.create({
     data: {
