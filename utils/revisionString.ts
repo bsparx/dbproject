@@ -19,6 +19,8 @@ const getPrompt = async (content) => {
 {entry}
 
 Generate an extensive revision guide that:
+- It starts with an index
+- Seperate each section visually.
 - Starts with foundational concepts and prerequisites
 - Includes necessary background information not directly tested
 - Explains bridging concepts that connect different topics
@@ -47,7 +49,6 @@ Consider adding:
 - Practice scenarios (different from exam questions)
 
 Enhance learning with:
-- "Check Your Understanding" questions at key points
 - Active recall prompts throughout the guide
 - Common exam question types and how to approach them
 - Topic-specific exam technique tips
@@ -56,24 +57,17 @@ Enhance learning with:
 - "Deep Dive" sections for advanced understanding
 - "Quick Review" sections for last-minute revision
 - Cross-references to related topics
-- Self-assessment checklists
-- Time management suggestions for exam questions
 - "Common Pitfalls" warnings
 - "Key Takeaways" summaries after each section
 - Interactive elements (where markdown allows)
-- Suggested spaced repetition schedule
 - Topic-specific study strategies
 
 Structure each major section with:
 1. Overview and learning objectives
-2. Core content with examples
-3. Common misconceptions addressed
-4. Practice opportunities
-5. Summary and key points
-6. Self-assessment elements
-7. Links to related topics
-8. Exam strategy specific to that topic
+2. Core content with examples. This section should be very comprehensive. You can add points of your own to enhance understanding.
+3. Summary and key points
 
+Important: Make sure you follow the format instructions and the string should be wrapped in the correct json format so langchain can parse it
 {format_instructions}`,
     inputVariables: ["entry"],
     partialVariables: { format_instructions }
@@ -90,7 +84,7 @@ export async function getRevisionString(prompt) {
   const llm = new ChatOpenAI({
     model: "gpt-4o-mini-2024-07-18", // or "gpt-4" depending on your needs
     temperature: 0.3,
-    maxTokens: 2000,
+    maxTokens: 5000,
     apiKey: process.env.OPENAI_API_KEY,
   });
 
