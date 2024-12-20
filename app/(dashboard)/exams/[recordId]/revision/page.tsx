@@ -89,16 +89,16 @@ export default async function Page({ params }) {
                 <ReactMarkdown
                   components={{
                     h1: ({ node, ...props }) => (
-                      <h1 className="text-3xl font-bold mb-6 mt-8 text-gray-800 dark:text-gray-100 border-b pb-2 border-gray-200 dark:border-gray-700" {...props} />
+                      <h1 className="text-3xl font-bold  mb-6 mt-8 text-gray-800 text-center dark:text-gray-100 border-b pb-2 border-gray-200 dark:border-gray-700" {...props} />
                     ),
                     h2: ({ node, ...props }) => (
-                      <h2 className="text-2xl font-semibold mb-4 mt-6 text-gray-700 dark:text-gray-200 flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5 text-green-500" />
+                      <h2 className="text-2xl font-semibold  mb-10 mt-6 text-gray-700 underline dark:text-gray-200 text-center gap-2">
+
                         <span {...props} />
                       </h2>
                     ),
                     h3: ({ node, ...props }) => (
-                      <h3 className="text-xl font-medium mb-3 mt-4 text-gray-600 dark:text-gray-300" {...props} />
+                      <h3 className="text-xl font-medium mb-3  mt-4 text-gray-600 dark:text-gray-300" {...props} />
                     ),
                     p: ({ node, ...props }) => (
                       <p className="mb-4 leading-relaxed text-gray-600 dark:text-gray-300" {...props} />
