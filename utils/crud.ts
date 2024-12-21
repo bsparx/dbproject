@@ -292,14 +292,15 @@ export async function gradeTheExam(previousInput, formdata: FormData) {
   let totalScore = 0.0;
   let prompt = "";
   for (let question of ExamQuestions) {
-    prompt = `This is the question:${
-      question.question.text
-    },\nThis is the difficulty of the question: ${question.question.difficulty}
-\nThis is the marking scheme, use this to grade the question(THis is not the answer the student wrote).: ${
-      question.question.correct_answer
-    },\n\n\n\nThe following is the student's answer: ${formdata.get(
-      `${question.question_id}answer`
-    )}`;
+    prompt = `Question: ${question.question.text}
+    Difficulty: ${question.question.difficulty}
+    
+    Marking Scheme (for grading, not the student's answer):
+    ${question.question.correct_answer}
+    
+    Student's Answer:
+    ${formdata.get(`${question.question_id}answer`)}`;
+    
 
     const analysis = await gradeTheQuestion(prompt);
 

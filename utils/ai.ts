@@ -10,28 +10,23 @@ const parser = StructuredOutputParser.fromZodSchema(
         .string()
         .min(1)
         .describe(
-          `Provide a detailed grading breakdown in react-markdown following this EXACT structure:
+          `Provide a detailed grading breakdown in react-markdown following this EXACT structure, make sure to seperate each section visually.Ensure all numerical scores use X.X format.:
 
 # Grading Breakdown
 
-**Final Score: {X.X}/10.0**
+## Model Answer
+- Give the model answer, word for word
 
-## Score Components
-- Name/description of the component: **{X.X}/total component marks**
+## Student Score Components
+- **Name/description of the component: {X.X}/total component marks**
   - Explanation of points awarded/deducted
-- Name/description of the component: **{X.X}/total component marks**
+- **Name/description of the component: {X.X}/total component marks**
   - Name/description of the component
   - Explanation of points awarded/deducted
 
 ## Feedback Summary
 *Brief explanation of overall performance*
-
-## Correct Answer Comparison
-- What was correct
-- What could be improved
-- Key differences noted
-
-Note: Ensure all numerical scores use X.X format and match the final score field.`
+ `
         ),
 
       score: z
@@ -111,11 +106,9 @@ export async function gradeTheQuestion(prompt) {
   ]);
   try {
     const parsedData = await parser.parse(aiMsg.content);
-   
 
     return parsedData;
   } catch (e) {
-    
     return "It didn't work";
   }
 }

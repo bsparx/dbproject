@@ -15,7 +15,7 @@ const parser = StructuredOutputParser.fromZodSchema(
       .string()
       .describe(
         `Create a comprehensive marking scheme for the question that totals 10 marks, structured as follows:
-        - Give a model answer to the question.
+        - Give a model answer to the question.It should be an answer not an explanation of what a model answer would be.
         - Allocate marks to each major component of the answer based on its importance and complexity.
         - Include clear guidance on what constitutes a complete, accurate response for each section.
         - Provide examples or key points that should be mentioned for full marks.

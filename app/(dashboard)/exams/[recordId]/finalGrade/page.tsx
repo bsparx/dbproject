@@ -183,7 +183,7 @@ export default async function GradeOverviewPage({ params }) {
         </div>
 
         {/* Question Details */}
-        <div className="p-8 space-y-6">
+        <div className="p-8 space-y-20">
           {data.map((record, index) => {
             const difficulty = record.score <= 4 ? 'hard' : 
                              record.score <= 7 ? 'medium' : 'easy';
@@ -192,7 +192,7 @@ export default async function GradeOverviewPage({ params }) {
             return (
               <div 
                 key={index}
-                className="bg-white border rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-2"
+                className="bg-white border rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 "
               >
                 <div className="p-6 space-y-4">
                   <div className="flex justify-between items-start">
@@ -226,7 +226,7 @@ export default async function GradeOverviewPage({ params }) {
                     <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                   
                   <div className="prose prose-blue max-w-none">
-  <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-50">
+  <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-50 ring-4 ring-blue-800">
     <ReactMarkdown 
       components={MarkdownComponents}
       className="space-y-4 text-gray-700"

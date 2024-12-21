@@ -56,7 +56,6 @@ Enhance learning with:
 - Active recall prompts throughout the guide
 - Common exam question types and how to approach them
 - Topic-specific exam technique tips
-- Mind map suggestions for visual learners
 - Mnemonics and memory aids where helpful
 - "Deep Dive" sections for advanced understanding
 - "Quick Review" sections for last-minute revision
